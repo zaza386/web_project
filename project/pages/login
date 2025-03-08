@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glamour</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 50px; }
+        .container { width: 300px; margin: auto; padding: 20px; border: 1px solid #ccc; border-radius: 5px; }
+        input, button { margin: 10px; padding: 8px; width: 90%; }
+        button { margin: 10px; padding: 10px; width: 90%; }
+        .exit { position: absolute; top: 10px; right: 10px; cursor: pointer; }
+
+        .cart-container {
+            display: flex;
+            justify-content: center; 
+            gap: 40px; 
+            width: 80%; 
+            margin: 0 auto; 
+            align-items: flex-start; 
+            margin-bottom: 80px; 
+            margin-top: 80px;
+        }
+
+        .product-area {
+            flex: 2; 
+            text-align: left;
+        }
+
+        .cart-table table {
+            width: 100%; 
+        }
+        .cart-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px; 
+        }
+
+        .cart-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .cart-table th, .cart-table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 20px;
+            font-size: 18px;
+            color: #888;
+        }
+
+        .cart-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .cart-button {
+            flex: 1;
+            background: #ccc;
+            border: 1px solid #aaa;
+            color: black;
+            padding: 10px;
+            text-align: center;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .cart-button:hover {
+            background: #bbb;
+        }
+
+        .checkout-button {
+            display: block;
+            width: 100%;
+            background: #bbb;
+            color: black;
+            padding: 15px;
+            text-align: center;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .checkout-button:hover {
+            background: #bbb;
+        }
+
+        .cart-total-area {
+            width: 30%;
+            padding: 20px;
+            align-items: left;
+            flex: 1;
+            border: 1px solid #eee;
+            background: #fafafa;
+            border-radius: 5px;
+        }
+
+        .cart-buttons-total .btn.btn-primary.btn-round {
+            margin-top: 15px;
+            font-size: 18px; 
+        }
+        .cart-buttons .btn.btn-primary.btn-round {
+            font-size: 18px; 
+            width: 200px;
+            height: 40px;
+            display: flex;
+            margin-top: 20px;
+            gap: 40px; 
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome to Glamour</h1>
+        <nav>
+            <a href="index.html">Home</a> |
+            <a href="manage_products.html">Manage Products</a> |
+            <a href="cart.html">Cart</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h2>Glamour Login</h2>
+        <input type="text" placeholder="Sign ID" id="signId"><br>
+        <input type="password" placeholder="Password" id="password"><br>
+        <button onclick="login()">Login</button>
+    </div>
+    <footer>
+        <p>&copy; 2025 Glamour. All rights reserved.</p>
+    </footer>
+</body>
+</html>
