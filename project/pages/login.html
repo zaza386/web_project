@@ -1,141 +1,150 @@
 <!DOCTYPE html>
-<html lang="en">
+<!-- Zinab Mukhtar Al-Rashed --> 
+<html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Glamour</title>
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; margin: 50px; }
-        .container { width: 300px; margin: auto; padding: 20px; border: 1px solid #ccc; border-radius: 5px; }
-        input, button { margin: 10px; padding: 8px; width: 90%; }
-        button { margin: 10px; padding: 10px; width: 90%; }
-        .exit { position: absolute; top: 10px; right: 10px; cursor: pointer; }
-
-        .cart-container {
-            display: flex;
-            justify-content: center; 
-            gap: 40px; 
-            width: 80%; 
-            margin: 0 auto; 
-            align-items: flex-start; 
-            margin-bottom: 80px; 
-            margin-top: 80px;
-        }
-
-        .product-area {
-            flex: 2; 
-            text-align: left;
-        }
-
-        .cart-table table {
-            width: 100%; 
-        }
-        .cart-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 10px; 
-        }
-
-        .cart-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .cart-table th, .cart-table td {
-            padding: 10px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .empty-cart {
-            text-align: center;
-            padding: 20px;
-            font-size: 18px;
-            color: #888;
-        }
-
-        .cart-buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .cart-button {
-            flex: 1;
-            background: #ccc;
-            border: 1px solid #aaa;
-            color: black;
-            padding: 10px;
-            text-align: center;
-            border-radius: 5px;
-            font-weight: bold;
-            transition: 0.3s;
-            cursor: pointer;
-        }
-
-        .cart-button:hover {
-            background: #bbb;
-        }
-
-        .checkout-button {
-            display: block;
-            width: 100%;
-            background: #bbb;
-            color: black;
-            padding: 15px;
-            text-align: center;
-            border-radius: 5px;
-            font-weight: bold;
-            transition: 0.3s;
-            cursor: pointer;
-        }
-
-        .checkout-button:hover {
-            background: #bbb;
-        }
-
-        .cart-total-area {
-            width: 30%;
-            padding: 20px;
-            align-items: left;
-            flex: 1;
-            border: 1px solid #eee;
-            background: #fafafa;
-            border-radius: 5px;
-        }
-
-        .cart-buttons-total .btn.btn-primary.btn-round {
-            margin-top: 15px;
-            font-size: 18px; 
-        }
-        .cart-buttons .btn.btn-primary.btn-round {
-            font-size: 18px; 
-            width: 200px;
-            height: 40px;
-            display: flex;
-            margin-top: 20px;
-            gap: 40px; 
-        }
-    </style>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Contact Us | Glamour</title>
+    <!-- Plugins CSS File --> 
+    <link rel="stylesheet" href="../css/bootstrap.min.css">  
+    <!-- Main CSS File --> 
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/cart.css">
 </head>
 <body>
-    <header>
-        <h1>Welcome to Glamour</h1>
-        <nav>
-            <a href="index.html">Home</a> |
-            <a href="manage_products.html">Manage Products</a> |
-            <a href="cart.html">Cart</a>
-        </nav>
-    </header>
-
-    <div class="container">
-        <h2>Glamour Login</h2>
-        <input type="text" placeholder="Sign ID" id="signId"><br>
-        <input type="password" placeholder="Password" id="password"><br>
-        <button onclick="login()">Login</button>
+    <div class="page-wrapper">
+        <header class="header">
+            <div class="header-top">
+                <div class="container">
+                    <div class="header-left"></div>
+                    <div class="header-right">
+                        <ul class="top-menu">
+                            <li>
+                                <br>
+                                <a href="#">Links</a>
+                                <ul>
+                                    <li><i class="icon-phone"></i>Call: +966 5 0000 0000</li>
+                                    <li><a href="adout.html">About Us</a></li>
+                                    <li><a href="contact.html">Contact Us</a></li>
+                                    <li><a href="login.html"><i class="icon-user"></i>Login</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="header-middle sticky-header">
+                <div class="container">
+                    <div class="header-left">
+                        <button class="mobile-menu-toggler">
+                            <span class="sr-only">Toggle mobile menu</span>
+                            <i class="icon-bars"></i>
+                        </button>
+                        <a href="../Index.html" class="logo">
+                            <img src="../images/logo.png" alt="Glamour Logo" width="105" height="25">
+                        </a>
+                        <nav class="main-nav">
+                            <ul class="menu">
+                                <li><a href="Index.html">Home</a></li>
+                                <li><a href="contact.html">Contact Us</a></li>
+                                <li><a href="help.html">Help</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="header-right">
+                        <div class="cart">
+                            <a href="cart.html" role="button" title="View Cart">
+                                <i class="icon-shopping-cart"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <div class="login-page bg-image pt-8 pb-8 pt-md-12 pb-md-12 pt-lg-17 pb-lg-17" style="background-image: url('../images/glamourx4.jpg')">
+            <div class="container">
+                <div class="form-box">
+                    <div class="form-tab">
+                        <ul class="nav nav-pills nav-fill" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="signin-tab-2" data-toggle="tab" href="#signin-2" role="tab" aria-controls="signin-2" aria-selected="true">Sign In</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane fade show active" id="signin-2" role="tabpanel" aria-labelledby="signin-tab-2">
+                                <form action="#">
+                                    <div class="form-group">
+                                        <label for="signin-email-2">Username or email address *</label>
+                                        <input type="text" class="form-control" id="signin-email-2" name="signin-email" required>
+                                    </div><!-- End .form-group -->
+        
+                                    <div class="form-group">
+                                        <label for="signin-password-2">Password *</label>
+                                        <input type="password" class="form-control" id="signin-password-2" name="signin-password" required>
+                                    </div><!-- End .form-group -->
+                                    <a href="#" class="btn btn-primary btn-round"><span>Login</span><i class="icon-long-arrow-right"></i></a>
+                                    <div>
+                                    <hr>
+        
+                                        <!-- <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="signin-remember-2">
+                                            <label class="custom-control-label" for="signin-remember-2">Remember Me</label>
+                                        </div> s
+        
+                                        <a href="#" class="forgot-link">Forgot Your Password?</a> -->
+                                    </div><!-- End .form-footer -->
+                                </form>
+                            </div><!-- .End .tab-pane -->
+                        </div><!-- End .tab-content -->
+                    </div><!-- End .form-tab -->
+                </div><!-- End .form-box -->
+            </div><!-- End .container -->
+        </div><!-- End .login-page section-bg -->
     </div>
-    <footer>
-        <p>&copy; 2025 Glamour. All rights reserved.</p>
+    <footer class="footer">
+        <div class="footer-middle">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="widget widget-about">
+                            <img src="../images/logo.png" class="footer-logo" alt="Footer Logo" width="105" height="25">
+                            <p>Glamour is a premium online store dedicated to organic makeup, offering a carefully selected range of high-quality, chemical-free beauty products. Our platform provides consumers with a sustainable alternative to conventional cosmetics, ensuring both safety and effectiveness.</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="widget widget-links">
+                            <h4>Quick Links</h4>
+                            <ul>
+                                <li><a href="adout.html">About Us</a></li>
+                                <li><a href="contact.html">Contact Us</a></li>
+                                <li><a href="help.html">Help</a></li>
+                                <li><a href="login.html" data-toggle="modal">Login</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="widget widget-social">
+                            <h4>Follow Us</h4>
+                            <div class="social-icons">
+                                <a href="#" class="social-icon" title="Facebook"><i class="icon-facebook-f"></i></a>
+                                <a href="#" class="social-icon" title="Twitter"><i class="icon-twitter"></i></a>
+                                <a href="#" class="social-icon" title="Instagram"><i class="icon-instagram"></i></a>
+                                <a href="#" class="social-icon" title="YouTube"><i class="icon-youtube"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <p class="footer-copyright">Copyright © 2025 Glamour Store. All Rights Reserved.</p>
+                <figure class="footer-payments">
+                    <img src="../images/payments.png" alt="Payment methods" width="272" height="20">
+                </figure><!-- End .footer-payments -->
+            </div>
+        </div>
     </footer>
 </body>
 </html>
