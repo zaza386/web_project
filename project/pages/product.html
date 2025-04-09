@@ -13,6 +13,51 @@
     <link rel="stylesheet" href="../css/plugins/owl-carousel/owl.carousel.css">
     <link rel="stylesheet" href="../css/plugins/magnific-popup/magnific-popup.css">
     <link rel="stylesheet" href="../css/plugins/nouislider/nouislider.css">
+
+    <!-- Help Popup CSS -->
+    <style>
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .popup-content {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            width: 300px;
+            text-align: left;
+            position: relative;
+        }
+
+        .close-button {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        .help-button {
+            background-color: #a94442;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            font-size: 20px;
+            line-height: 1;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
     <div class="page-wrapper">
@@ -26,7 +71,7 @@
                                 <br>
                                 <a href="#">Links</a>
                                 <ul>
-                                    <li><i class="icon-phone"></i>Call: +966 5 0000 0000</li>
+                                    <li><i class="icon-phone"></i>Call: ‪+966 5 0000 0000‬</li>
                                     <li><a href="adout.html">About Us</a></li>
                                     <li><a href="contact.html">Contact Us</a></li>
                                     <li><a href="login.html"><i class="icon-user"></i>Login</a></li>
@@ -67,9 +112,6 @@
 
     <div class="container product-page">
         <div class="row">
-
-            <!--product details -->
-
             <!-- Product Image -->
             <div class="col-md-6">
                 <div class="product-gallery">
@@ -88,20 +130,16 @@
                 <div class="product-quantity">
                     <label for="product-quantity">Qty:</label>
                     <div class="input_group">
-                       
                         <button class="btn btn_decrement btn-spinner" type="button">-</button>
                         <input type="text" id="product_quantity" class="form-control" value="1" readonly>
                         <button class="btn btn_increment btn-spinner" type="button">+</button>
                     </div>
                 </div>
-                
-                
 
                 <div class="product-buttons">
                     <button class="btn btn-primary btn-add-to-cart">Add to Cart</button>
                     <a href="cart.html" class="btn btn-secondary btn-checkout">Checkout</a>
-                    <a href="contact.html" class="help-button">?</a>
-
+                    <button class="help-button" onclick="openHelpPopup()">?</button>
                 </div>
             </div>
         </div>
@@ -112,7 +150,6 @@
                 <li class="nav-item">
                     <a class="nav-link active" data-toggle="tab" href="#description">Description</a>
                 </li>
-             
                 <li class="nav-item">
                     <a class="nav-link" data-toggle="tab" href="#shipping-returns">Shipping & Returns</a>
                 </li>
@@ -120,7 +157,7 @@
 
             <div class="tab-content">
                 <div id="description" class="tab-pane fade show active">
-    <pre>Rosé Luxe Velvet Tint is the perfect fusion of elegance and clean beauty. 
+<pre>Rosé Luxe Velvet Tint is the perfect fusion of elegance and clean beauty. 
 Made with 100% organic ingredients, this lightweight lip tint provides a velvety-smooth application with a rich, pigmented finish. 
 The formula is enriched with rosehip oil, shea butter, and vitamin E, ensuring your lips stay hydrated and plump throughout the day.
 
@@ -133,7 +170,6 @@ The formula is enriched with rosehip oil, shea butter, and vitamin E, ensuring y
 Perfect for a soft, everyday glow or a bold statement look, this lip tint is designed to enhance your natural beauty effortlessly.
 Whether you’re heading to a casual brunch or a glamorous evening event, Rosé Luxe Velvet Tint is your go-to organic lip essential.</pre>
                 </div>
-            
                 <div id="shipping-returns" class="tab-pane fade">
 <pre><strong>📦 Shipping Policy:</strong>
 
@@ -143,9 +179,8 @@ Express shipping is available for an additional charge, with delivery in 1-2 bus
 We currently ship across Saudi Arabia; for GCC or international shipping, please contact our support team.
 Cash on Delivery (COD) is available for an additional fee of SAR 10. 
 
-
 <strong>🔄 Return Policy:</strong>
-    
+
 If you are not satisfied with your purchase, you may return unused and unopened products within 14 days of delivery for a full refund or exchange.
 Due to hygiene reasons, we cannot accept returns on used or opened products.
 If your order arrives damaged, defective, or incorrect, please contact us within 48 hours of delivery for a free replacement or refund.
@@ -155,7 +190,22 @@ Customers are responsible for return shipping fees unless the item is damaged or
         </div>
     </div>
 
-    <!-- Footer (Exact from Project) -->
+    <!-- Help Popup -->
+    <div id="helpPopup" class="popup-overlay">
+        <div class="popup-content">
+            <span class="close-button" onclick="closeHelpPopup()">&times;</span>
+            <h4>Need Help?</h4>
+            <ul style="padding-left: 20px;">
+                <li>Choose quantity using + / -</li>
+                <li>Click "Add to Cart" to save item</li>
+                <li>Click "Checkout" to place your order</li>
+                <li>Email: support@Glamour_Organic.com</li>
+            </ul>
+            <button onclick="closeHelpPopup()" class="btn btn-sm btn-outline-primary">Got it!</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
     <footer class="footer">
         <div class="footer-middle">
             <div class="container">
@@ -163,7 +213,7 @@ Customers are responsible for return shipping fees unless the item is damaged or
                     <div class="col-sm-6 col-lg-3">
                         <div class="widget widget-about">
                             <img src="../images/logo.png" class="footer-logo" alt="Footer Logo" width="105" height="25">
-                            <p>Glamour is a premium online store dedicated to organic makeup, offering a carefully selected range of high-quality, chemical-free beauty products. Our platform provides consumers with a sustainable alternative to conventional cosmetics, ensuring both safety and effectiveness.</p>
+                            <p>Glamour is a premium online store dedicated to organic makeup, offering a carefully selected range of high-quality, chemical-free beauty products. Our platform provides consumers with a sustainable alternative to conventional cosmetics, ensuring both safety and effectiveness.</p>
                         </div>
                     </div>
                     <div class="col-sm-6 col-lg-3">
@@ -191,45 +241,53 @@ Customers are responsible for return shipping fees unless the item is damaged or
                 </div>
             </div>
         </div>
-    <div class="footer-bottom">
-        <div class="container">
-            <p class="footer-copyright">Copyright © 2025 Glamour Store. All Rights Reserved.</p>
-            <figure class="footer-payments">
-                <img src="../images/payments.png" alt="Payment methods" width="272" height="20">
-            </figure><!-- End .footer-payments -->
+        <div class="footer-bottom">
+            <div class="container">
+                <p class="footer-copyright">Copyright © 2025 Glamour Store. All Rights Reserved.</p>
+                <figure class="footer-payments">
+                    <img src="../images/payments.png" alt="Payment methods" width="272" height="20">
+                </figure>
+            </div>
         </div>
-    </div>
-</footer>
+    </footer>
 </div>
-</body>
-</html>
 
-    <!-- JavaScript Files -->
-    <script src="../js/jquery.min.js"></script>
-    <script src="../js/bootstrap.bundle.min.js"></script>
-    <script src="../js/main.js"></script>
-    
-    <!-- for increment the quantity in product detail page -->
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const quantityInput = document.getElementById("product_quantity");
-            const incrementButton = document.querySelector(".btn_increment");
-            const decrementButton = document.querySelector(".btn_decrement");
-        
-            incrementButton.addEventListener("click", function () {
-                let currentValue = parseInt(quantityInput.value);
-                quantityInput.value = currentValue + 1;
-            });
-        
-            decrementButton.addEventListener("click", function () {
-                let currentValue = parseInt(quantityInput.value);
-                if (currentValue > 1) {
-                    quantityInput.value = currentValue - 1;
-                }
-            });
-        });
-        </script>
-        
-        
+<!-- JavaScript Files -->
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrap.bundle.min.js"></script>
+<script src="../js/main.js"></script>
+
+<!-- Quantity Spinner Script -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const quantityInput = document.getElementById("product_quantity");
+    const incrementButton = document.querySelector(".btn_increment");
+    const decrementButton = document.querySelector(".btn_decrement");
+
+    incrementButton.addEventListener("click", function () {
+        let currentValue = parseInt(quantityInput.value);
+        quantityInput.value = currentValue + 1;
+    });
+
+    decrementButton.addEventListener("click", function () {
+        let currentValue = parseInt(quantityInput.value);
+        if (currentValue > 1) {
+            quantityInput.value = currentValue - 1;
+        }
+    });
+});
+</script>
+
+<!-- Help Popup Script -->
+<script>
+function openHelpPopup() {
+    document.getElementById("helpPopup").style.display = "flex";
+}
+
+function closeHelpPopup() {
+    document.getElementById("helpPopup").style.display = "none";
+}
+</script>
+
 </body>
 </html>
