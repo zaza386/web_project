@@ -12,17 +12,102 @@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const cartItems = document.getElementById("cart-items");
-            const emptyCartMessage = document.createElement("p");
-            emptyCartMessage.textContent = "Your cart is now empty.";
-            emptyCartMessage.classList.add("empty-cart-message");
-
-            document.getElementById("empty-cart-button").addEventListener("click", function() {
+            
+            // Load cart items from localStorage
+            function loadCartItems() {
+                const cart = JSON.parse(localStorage.getItem("cart")) || [];
                 cartItems.innerHTML = "";
-                cartItems.appendChild(emptyCartMessage);
+
+                if (cart.length === 0) {
+                    cartItems.innerHTML = '<tr><td colspan="5" class="empty-cart">Your cart is currently empty.</td></tr>';
+                    document.getElementById("subtotal").textContent = "Subtotal: SAR 0.00";
+                    document.getElementById("total").textContent = "Total: SAR 0.00";
+                    return;
+                }
+
+                let subtotal = 0;
+                
+                cart.forEach((item, index) => {
+                    const total = item.price * item.quantity;
+                    subtotal += total;
+                    
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td>${item.name}</td>
+                        <td>SAR ${item.price.toFixed(2)}</td>
+                        <td>
+                            <input type="number" min="1" value="${item.quantity}" 
+                                   class="quantity-input" data-index="${index}">
+                        </td>
+                        <td>SAR ${total.toFixed(2)}</td>
+                        <td><button class="btn-remove" data-index="${index}">Remove</button></td>
+                    `;
+                    cartItems.appendChild(row);
+                });
+
+                document.getElementById("subtotal").textContent = `Subtotal: SAR ${subtotal.toFixed(2)}`;
+                document.getElementById("total").textContent = `Total: SAR ${subtotal.toFixed(2)}`;
+            }
+
+            // Initial load
+            loadCartItems();
+
+            // Empty cart button
+            document.getElementById("empty-cart-button").addEventListener("click", function() {
+                localStorage.removeItem("cart");
+                loadCartItems();
             });
 
+            // Update cart button
             document.getElementById("update-cart-button").addEventListener("click", function() {
-                location.reload();
+                updateCartQuantities();
+                loadCartItems();
+            });
+
+            // Remove item
+            cartItems.addEventListener("click", function(e) {
+                if (e.target.classList.contains("btn-remove")) {
+                    const index = e.target.dataset.index;
+                    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+                    cart.splice(index, 1);
+                    localStorage.setItem("cart", JSON.stringify(cart));
+                    loadCartItems();
+                }
+            });
+
+            // Update quantities when input changes
+            function updateCartQuantities() {
+                const quantityInputs = document.querySelectorAll('.quantity-input');
+                let cart = JSON.parse(localStorage.getItem("cart")) || [];
+                
+                quantityInputs.forEach(input => {
+                    const index = input.dataset.index;
+                    const newQuantity = parseInt(input.value);
+                    
+                    if (newQuantity >= 1 && cart[index]) {
+                        cart[index].quantity = newQuantity;
+                    }
+                });
+                
+                localStorage.setItem("cart", JSON.stringify(cart));
+            }
+
+            // Shipping options
+            document.querySelectorAll('input[name="shipping"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    const shippingCost = parseFloat(this.dataset.shipping);
+                    const subtotalText = document.getElementById("subtotal").textContent;
+                    const subtotal = parseFloat(subtotalText.replace(/[^0-9.]/g, ''));
+                    document.getElementById("total").textContent = `Total: SAR ${(subtotal + shippingCost).toFixed(2)}`;
+                });
+            });
+
+            // Buy button - clear cart and show thank you modal
+            document.querySelector('.cart-buttons-total a').addEventListener('click', function(e) {
+                e.preventDefault();
+                updateCartQuantities();
+                localStorage.removeItem("cart");
+                $('#thankYouModal').modal('show');
             });
         });
     </script>
@@ -41,7 +126,7 @@
                                 <li><i class="icon-phone"></i>Call: +966 000 0000</li>
                                 <li><a href="about.html">About Us</a></li>
                                 <li><a href="contact.html">Contact Us</a></li>
-                                <li><a href="login.html" data-toggle="modal"><i class="icon-user"></i>Login</a></li>
+                                <li><a href="login.html" data-toggle="modal"><i class="icon-user"></i>login</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -101,12 +186,12 @@
 
         <div class="cart-total-area">
             <h2>Cart Total</h2>
-            <p id="subtotal">Subtotal: $0.00</p>
+            <p id="subtotal">Subtotal: SAR 0.00</p>
             <p>Shipping:</p>
-            <label><input type="radio" name="shipping" value="free" data-shipping="0"> Free Shipping: $0.00</label><br>
-            <label><input type="radio" name="shipping" value="standard" data-shipping="10"> Standard: $10.00</label><br>
-            <label><input type="radio" name="shipping" value="express" data-shipping="20"> Express: $20.00</label><br>
-            <p id="total">Total: $0.00</p>
+            <label><input type="radio" name="shipping" value="free" data-shipping="0"> Free Shipping: SAR 0.00</label><br>
+            <label><input type="radio" name="shipping" value="standard" data-shipping="10"> Standard: SAR 10.00</label><br>
+            <label><input type="radio" name="shipping" value="express" data-shipping="20"> Express: SAR 20.00</label><br>
+            <p id="total">Total: SAR 0.00</p>
             <div class="cart-buttons-total">
                 <a href="#" class="btn btn-primary btn-round" data-toggle="modal" data-target="#thankYouModal">
                     <span>BUY</span><i class="icon-long-arrow-right"></i>
@@ -142,7 +227,7 @@
                         <div class="widget widget-links">
                             <h4>Quick Links</h4>
                             <ul>
-                                <li><a href="about.html">About Us</a></li>
+                                <li><a href="adout.html">About Us</a></li>
                                 <li><a href="contact.html">Contact Us</a></li>
                                 <li><a href="help.html">Help</a></li>
                                 <li><a href="login.html">Login</a></li>
