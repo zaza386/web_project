@@ -13,7 +13,30 @@
     <link rel="stylesheet" href="../css/plugins/owl-carousel/owl.carousel.css">
     <link rel="stylesheet" href="../css/plugins/magnific-popup/magnific-popup.css">
     <link rel="stylesheet" href="../css/plugins/nouislider/nouislider.css">
+<script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const addToCartButton = document.querySelector('.btn-add-to-cart');
+            addToCartButton.addEventListener('click', function () {
+                const quantity = parseInt(document.getElementById('product_quantity').value);
+                const product = {
+                    name: "Rosé Luxe Velvet Tint",
+                    price: 95,
+                    quantity: quantity,
+                };
 
+                // Get cart from localStorage, or initialize an empty array
+                let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+                // Add the product to the cart
+                cart.push(product);
+
+                // Save the updated cart back to localStorage
+                localStorage.setItem("cart", JSON.stringify(cart));
+
+                alert('Added ' + quantity + ' item(s) to your cart');
+            });
+        });
+    </script>
     <!-- Help Popup CSS -->
     <style>
         .popup-overlay {
