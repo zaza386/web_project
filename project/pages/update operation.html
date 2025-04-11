@@ -81,7 +81,7 @@
         </div>
       </div>
     </header> <!--end header --> 
-    <div class="container">
+    <div class="container"> <!--start the modify-->
         <header>
             <h1>Modify Product</h1>
         </header>
@@ -114,7 +114,7 @@
     </head>
     <body>
     
-    <div class="form-group">
+      <div class="form-group">
         <label for="updateChoice">What would you like to update?</label>
         <select id="updateChoice" name="updateChoice" required onchange="toggleInputType()">
             <option value="" disabled selected>Select an option</option>
@@ -122,62 +122,155 @@
             <option value="price">Price</option>
             <option value="quantity">Quantity</option>
             <option value="image">Image</option>
+            <option value="category">Category</option>
+            <option value="description1">Product Description 1</option>
+            <option value="description2">Product Description 2</option>
         </select>
     </div>
     
+    <div class="form-group" id="categoryDiv" style="display: none;"> <!--when the user select category-->
+      <label for="category">Select Category:</label>
+      <select id="category" name="category" onchange="toggleOtherCategory()">
+          <option value="" disabled selected>Select a category</option>
+          <option value="lips">Lips</option>
+          <option value="eyes">Eyes</option>
+          <option value="face">Face</option>
+      </select>
+  </div>
+  <div class="form-group" id="otherCategoryDiv" style="display: none;"> <!--when the user select other-->
+    <label for="otherCategory">Enter Custom Category:</label>
+    <input type="text" id="otherCategory" name="otherCategory" placeholder="Enter your category">
+</div>
+
     <div class="form-group">
-        <label for="newValue">New Value:</label>
-        <input type="text" id="newValue" name="newValue" required>
+      <label for="newValue">New Value:</label>
+      <input type="text" id="newValue" name="newValue" required>
+  </div>
+
+    <div class="form-group" id="description1Div" style="display: none;">
+        <label for="description1">Product Description 1:</label>
+        <textarea id="description1" name="description1" rows="4" cols="50"></textarea>
     </div>
     
+    <div class="form-group" id="description2Div" style="display: none;">
+        <label for="description2">Product Description 2:</label>
+        <textarea id="description2" name="description2" rows="4" cols="50"></textarea>
+    </div>
+
     <div id="imageUploadDiv" class="form-group" style="display: none;">
-        <label for="productImage">Upload New Image:</label>
-        <input type="file" id="productImage" name="productImage" accept="image/*">
-    </div>
+      <label for="productImage">Upload New Image:</label>
+      <input type="file" id="productImage" name="productImage" accept="image/*">
+  </div>
     
-    <script>
+  <script>
     function toggleInputType() {
         const updateChoice = document.getElementById('updateChoice').value;
+        const newValueDiv = document.getElementById('newValue').parentElement; // Get the parent div of the "New Value" input
         const newValueInput = document.getElementById('newValue');
         const imageUploadDiv = document.getElementById('imageUploadDiv');
-    
-        // Reset the input type and hide image upload
-        newValueInput.value = ''; // Clear the input on change
+        const categoryDiv = document.getElementById('categoryDiv');
+        const description1Div = document.getElementById('description1Div');
+        const description2Div = document.getElementById('description2Div');
+        const categorySelect = document.getElementById('category');
+
+     // Reset the input type and hide image upload
+     newValueInput.value = ''; // Clear the input on change
         newValueInput.style.display = 'block'; // Reset visibility of text input
         imageUploadDiv.style.display = 'none'; // Hide the image upload section
+
+        // Reset visibility of all inputs
+        newValueDiv.style.display = 'block';
+        imageUploadDiv.style.display = 'none';
+        categoryDiv.style.display = 'none';
+        description1Div.style.display = 'none';
+        description2Div.style.display = 'none';
     
+        // Handle specific cases
         if (updateChoice === 'price') {
             // Price: Only numbers and decimal
             newValueInput.type = 'text';
             newValueInput.oninput = function () {
                 this.value = this.value.replace(/[^0-9.]/g, '');
             };
+            // Quantity: Only numbers allowed
         } else if (updateChoice === 'quantity') {
-            // Quantity: Only numbers
             newValueInput.type = 'text';
             newValueInput.oninput = function () {
                 this.value = this.value.replace(/[^0-9]/g, '');
             };
-        } else if (updateChoice === 'name') {
+
+          } else if (updateChoice === 'name') {
             // Name: Text is acceptable
             newValueInput.type = 'text';
             newValueInput.oninput = function () {
                 this.value = this.value; // No restriction, keep as is
             };
+
         } else if (updateChoice === 'image') {
-            // Image: Show image upload
-            newValueInput.style.display = 'none'; // Hide the text input
-            imageUploadDiv.style.display = 'block'; // Show the image upload
-        } else {
-            newValueInput.type = 'text'; // Default type
+            newValueDiv.style.display = 'none'; // Hide "New Value" input
+            imageUploadDiv.style.display = 'block'; // Show image upload
+
+        } else if (updateChoice === 'category') {
+            newValueDiv.style.display = 'none'; // Hide "New Value" input
+            categoryDiv.style.display = 'block'; // Show category dropdown
+
+        } else if (updateChoice === 'description1') {
+            newValueDiv.style.display = 'none'; // Hide "New Value" input
+            description1Div.style.display = 'block'; // Show description 1 textarea
+
+        } else if (updateChoice === 'description2') {
+            newValueDiv.style.display = 'none'; // Hide "New Value" input
+            description2Div.style.display = 'block'; // Show description 2 textarea
         }
+        else {
+            newValueDiv.style.display = 'block'; // Show "New Value" input for other cases
+        }
+      }
+    </script>
+     <div class="button-container"></div>
+    <!-- Submit Button -->
+    <button type="submit" class="submit-btn">Submit</button>
+
+    <!-- Cancel Button -->
+    <button type="button" onclick="clearForm()" class="cancel-btn">Cancel</button>
+
+      
+    </div>
+</form>
+
+<script>
+  
+
+
+function validateForm() {
+    const updateChoice = document.getElementById('updateChoice').value;
+    const newValue = document.getElementById('newValue').value;
+
+    if (!updateChoice) {
+        alert('Please select what you want to update.');
+        return false; // Prevent form submission
     }
 
+    if (!newValue) {
+        alert('Please fill in the new value.');
+        return false; // Prevent form submission
+    }
+
+    // Redirect to the manage product page after successful validation
+    window.location.href = 'manage_product.html';
+    return true; // Allow form submission
+}
+
+function clearForm() {
+    const form = document.querySelector('form'); // Select the form element
+    if (form) {
+        form.reset(); // Reset all form fields to their default values
+        console.log('Form cleared successfully!'); // Optional: Log for debugging
+    } else {
+        console.error('Form not found!');
+    }
+} 
 </script>
-            <div class="button-container">
-                <button type="submit" class="submit-btn"> Modify Product</button>
-        <button type="button"onclick="window.location.href='admin_operations.html'" class="go-back-btn">cancel</button>
-    </form>
     </div>
     <footer class="footer"> <!--start footer -->
         <div class="footer-middle">
