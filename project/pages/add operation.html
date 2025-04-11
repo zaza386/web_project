@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head> <!--jory alqahtani -->
   <meta charset="UTF-8">
   <meta name="keywords" content="Glamour, Glamour home page, organic makeup, natural beauty, cruelty-free cosmetics, vegan makeup, eco-friendly beauty, organic foundation, clean beauty, non-toxic makeup">
   <meta name="description" content="Discover the beauty of organic makeup with Glamour. Shop high-quality, cruelty-free, and eco-friendly cosmetics made from natural ingredients. Embrace clean beauty today!">
@@ -69,70 +69,80 @@
   </div>
 </header> <!--end header --> 
 
-<main class="main">
+<main class="main"> <!--start main-->
     <section class="middle-section">
       <div class="container">
-        <br>
-                <form action="add_product.php" method="post" enctype="multipart/form-data">
-                    <div class="form-group">
-                        <label for="productId">Product ID:</label>
-                        <input type="text" id="productId" name="productId" required autocomplete="on" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
-                    </div>
-                    <div class="form-group">
-                        <label for="productName">Product Name:</label>
-                        <input type="text" id="productName" name="productName" required autocomplete="on">
-                    </div>
-                    <div class="form-group">
-                        <label for="productPrice">Price:</label>
-                        <input type="number" id="productPrice" name="productPrice" required min= "0" step="0.01" autocomplete="on">
-                    </div>
-                </form>
-                    <div class="form-group">
-                        <label for="productQuantity">Quantity:</label>
-                        <input type="number" id="productQuantity" name="productQuantity" min="0" step="1" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="productImage">Product Image:</label>
-                        <input type="file" id="productImage" name="productImage" accept="image/*" required>
-                    </div>
-                    <div class="form-group">
-                      <label for="productCategory">Product Category:</label>
-                      <select id="productCategory" name="productCategory" required onchange="toggleOtherInput()"> 
-                          <option value="" disabled selected>Select a category</option>
-                          <option value="face">Face</option>
-                          <option value="eyes">Eyes</option>
-                          <option value="lips">Lips</option>
-                          <option value="other">Other</option>
-                      </select>
-                  </div>
-                  <div class="form-group" id="otherInputContainer" style="display: none;">
-                    <label for="otherCategory">Please specify:</label>
-                    <input type="text" id="otherCategory" name="otherCategory" autocomplete="on">
-                </div>
-                <!--script for the categoey-->
-                <script> 
-                  function toggleOtherInput() {
-                      const selectElement = document.getElementById('productCategory');
-                      const otherInputContainer = document.getElementById('otherInputContainer');
-                      
-                      if (selectElement.value === 'other') {
-                          otherInputContainer.style.display = 'block';
-                      } else {
-                          otherInputContainer.style.display = 'none';
-                      }
-                  }
-              </script>
-                    <div class="form-group">
-                        <label for="productDescription">Product description:</label>
-                        <textarea id="productDescription" name="productDescription" required autocomplete="on" rows="5" ></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="productDescription2">Product productDescription2:</label>
-                        <textarea id="productDescription2" name="productDescription2"  autocomplete="on" rows="5" ></textarea>
-                    </div>
-                    <div class="button-container">
-                        <button type="submit" onclick="window.location.href='mange_product.html'"class="submit-btn">Add Product</button> <!--should make it add somewher-->
-                <button type="button"onclick="window.location.href='admin_operations.html'" class="go-back-btn">Cancel</button>
+        <br> 
+        <form id="productForm" action="add_product.php" method="post" enctype="multipart/form-data"> <!-- Form to add a new product -->
+          <div class="form-group">
+              <label for="productId">Product ID:</label>
+              <input type="text" id="productId" name="productId" required autocomplete="on" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+          </div>
+          
+          <div class="form-group">
+              <label for="productName">Product Name:</label>
+              <input type="text" id="productName" name="productName" required autocomplete="on">
+          </div>
+          
+          <div class="form-group">
+              <label for="productPrice">Price:</label>
+              <input type="number" id="productPrice" name="productPrice" required min="0" step="0.01" autocomplete="on">
+          </div>
+          
+          <div class="form-group">
+              <label for="productQuantity">Quantity:</label>
+              <input type="number" id="productQuantity" name="productQuantity" min="0" step="1" required>
+          </div>
+          
+          <div class="form-group">
+              <label for="productImage">Product Image:</label>
+              <input type="file" id="productImage" name="productImage" accept="image/*" required>
+          </div>
+          
+          <div class="form-group"><!-- Category selection with "Other" option -->
+              <label for="productCategory">Product Category:</label>
+              <select id="productCategory" name="productCategory" required onchange="toggleOtherInput()"> 
+                  <option value="" disabled selected>Select a category</option>
+                  <option value="face">Face</option>
+                  <option value="eyes">Eyes</option>
+                  <option value="lips">Lips</option>
+              </select>
+          </div>
+            
+          <div class="form-group">
+              <label for="productDescription">Product description:</label>
+              <textarea id="productDescription" name="productDescription" required autocomplete="on" rows="5"></textarea>
+          </div>
+          
+          <div class="form-group">
+              <label for="productDescription2">Product productDescription2:</label>
+              <textarea id="productDescription2" name="productDescription2" autocomplete="on" rows="5"></textarea>
+          </div>
+          
+          <div class="button-container"><!-- Buttons for adding and canceling the product -->
+              <button type="submit">Add product</button>
+              <button type="button" id="cancelButton">Cancel</button>
+          </div>
+      </form>
+  
+      <script>
+          // Handle form submission
+          const form = document.getElementById('productForm');
+  
+          form.onsubmit = function(e) {
+              // Prevent the default form submission
+              e.preventDefault();
+  
+              // Redirect to the manage product page
+              window.location.href = "https://www.example.com/manage-products"; // Change URL as needed
+          };
+  
+          // Handle cancel button click
+          document.getElementById('cancelButton').onclick = function() {
+              // Clear all input fields
+              form.reset();
+          };
+      </script>
             </form>
             </div>
         </section>
