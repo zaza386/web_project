@@ -1,80 +1,200 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Help Page</title>
+  <!-- Meta tags for SEO and responsiveness -->
+  <meta charset="UTF-8">
+  <meta name="keywords" content="Glamour, Glamour home page, organic makeup, natural beauty, cruelty-free cosmetics, vegan makeup, eco-friendly beauty, organic foundation, clean beauty, non-toxic makeup">
+  <meta name="description" content="Discover the beauty of organic makeup with Glamour. Shop high-quality, cruelty-free, and eco-friendly cosmetics made from natural ingredients. Embrace clean beauty today!">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>help Glamour</title>
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f8f9fa;
-        }
 
-        header, footer {
-            background-color: #333;
-            color: white;
-            padding: 15px;
-        }
+  <!-- CSS files -->
+  <link rel="stylesheet" href="../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/help.css">
+</head>
+<body>
+<div class="page-wrapper">
+<!-- Header section -->
+<header class="header">
+  <div class="header-top">
+    <div class="container">
+      <div class="header-left"></div>
+      <div class="header-right">
+        <!-- Top links like contact, about, logout -->
+        <ul class="top-menu">
+          <li><br>
+            <a href="#">Links</a>
+            <ul>
+              <li><i class="icon-phone"></i>Call: +966 5 0000 0000</li>
+              <li><a href="adout.html">About Us</a></li>
+              <li><a href="contact.html">Contact Us</a></li>
+              <li><a href="../Index.html"><i class="icon-user"></i>Logout</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
 
-        nav a {
-            margin-right: 15px;
-            color: white;
-            text-decoration: none;
-        }
+  <div class="header-middle sticky-header">
+    <div class="container">
+      <div class="header-left">
+        <!-- Mobile menu button -->
+        <button class="mobile-menu-toggler">
+          <span class="sr-only">Toggle mobile menu</span>
+          <i class="icon-bars"></i>
+        </button>
+        <!-- Site logo -->
+        <a href="../Index.html" class="logo">
+          <img src="../images/logo.png" alt="Glamour Logo" width="105" height="25">
+        </a>
+        <!-- Navigation menu -->
+        <nav class="main-nav">
+          <ul class="menu">
+            <li><a href="../Index.html">Home</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+            <li><a href="/help.html">Help</a></li>
+          </ul>
+        </nav>
+      </div>
 
-        main {
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-        }
-
-        section {
-            margin-bottom: 20px;
-        }
-
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        li {
-            margin-bottom: 10px;
-        }
-    </style>
+      <!-- Search form -->
+      <div class="header-right">
+        <div class="header-search">
+          <a href="#" id="searchIcon" class="search-toggle" role="button" title="Search"><i class="icon-search"></i></a>
+          <form action="#" method="get" id="searchForm" style="display: inline;">
+            <div class="header-search-wrapper" style="display: inline;">
+              <label for="q" class="sr-only">Search</label>
+              <input type="search" class="form-control" name="q" id="q" placeholder="Search in..." required style="width: 200px; display: inline;">
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
 </head>
 <body>
     <header>
-        <h1>Help & Support</h1>
-        <nav>
-            <!-- Linking Home button to index.html -->
-            <a href="index.html">Home</a>
-            <a href="help.html">Help</a>
-        </nav>
+        <main class="main">
+            <section class="middle-section">
+              <div class="container">
+                <br>
     </header>
-
     <main>
-        <section>
-            <h2>How to Use the System</h2>
-            <p>This system helps users shop and manage their tasks. You can select, add, and delete items easily.</p>
-        </section>
-
-        <section>
-            <h2>Frequently Asked Questions (FAQ)</h2>
-            <ul>
-                <li><strong>Q:</strong> How do I log in? <br><strong>A:</strong> Click the login button and enter your info.</li>
-                <li><strong>Q:</strong> How do I reset my password? <br><strong>A:</strong> Click “Forgot password” on the login page.</li>
-            </ul>
-        </section>
-
-        <section>
-            <h2>Contact Support</h2>
-            <p>If you need help, email: <a href="mailto:support@gmail.com">support@gmail.com</a></p>
+        <body>
+            <div class="container"> <!-- Start of the container -->
+                <section>
+                    <h3>How to Use the System</h3>
+                    <p>This system helps users shop and manage their tasks. You can select, add, and delete items easily.</p>
+                </section>
+        
+                <section>
+                    <h3>Frequently Asked Questions (FAQ)</h3>
+                    <ul>
+                        <li><strong>Q:</strong> How do I log in? <br><strong>A:</strong> Click the login button and enter your info.</li>
+                        <li><strong>Q:</strong> How do I reset my password? <br><strong>A:</strong> Click “Forgot password” on the login page.</li>
+                    </ul>
+                </section>
+        
+                <section>
+                    <h3>Contact Support</h3>
+                    <p>If you need help, email: <a href="mailto:support@gmail.com">support@gmail.com</a></p>
+                </section>
+            </div> <!-- End of the container -->
         </section>
     </main>
 
-    <footer>
-        <p>&copy; 2025 glamour. All rights reserved.</p>
-    </footer>
-</body>
-</html>
+<!-- Footer -->
+<footer class="footer">
+    <div class="footer-middle">
+      <div class="container">
+        <div class="row">
+          <!-- About -->
+          <div class="col-sm-6 col-lg-3">
+            <div class="widget widget-about">
+              <img src="../images/logo.png" class="footer-logo" alt="Footer Logo" width="105" height="25">
+              <p>Glamour is a premium online store dedicated to organic makeup, offering high-quality, chemical-free beauty products.</p>
+            </div>
+          </div>
+          <!-- Links -->
+          <div class="col-sm-6 col-lg-3">
+            <div class="widget widget-links">
+              <h4>Quick Links</h4>
+              <ul>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+                <li><a href="help.html">Help</a></li>
+                <li><a href="login.html" data-toggle="modal">Login</a></li>
+              </ul>
+            </div>
+          </div>
+          <!-- Social media -->
+          <div class="col-sm-6 col-lg-3">
+            <div class="widget widget-social">
+              <h4>Follow Us</h4>
+              <div class="social-icons">
+                <a href="https://www.facebook.com/profile.php?id=61574225245811" class="social-icon" title="Facebook"><i class="icon-facebook-f"></i></a>
+                <a href="https://x.com/GlamourOrganicC" class="social-icon" title="Twitter"><i class="icon-twitter"></i></a>
+                <a href="https://www.instagram.com/glamourorganiccosmeticco/" class="social-icon" title="Instagram"><i class="icon-instagram"></i></a>
+                <a href="https://www.youtube.com/" class="social-icon" title="YouTube"><i class="icon-youtube"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Bottom footer -->
+    <div class="footer-bottom">
+      <div class="container">
+        <p class="footer-copyright">Copyright © 2025 Glamour Store. All Rights Reserved.</p>
+        <figure class="footer-payments">
+          <img src="../images/payments.png" alt="Payment methods" width="272" height="20">
+        </figure>
+      </div>
+    </div>
+  </footer>
+  </div>
+  
+  <!-- Search script functionality -->
+  <script>
+    const searchInput = document.getElementById('q');
+    const products = document.querySelectorAll('.product');
+    const searchIcon = document.getElementById('searchIcon');
+  
+    const noResults = document.createElement('p');
+    noResults.textContent = 'No products found.';
+    noResults.style.textAlign = 'center';
+    noResults.style.marginTop = '20px';
+    noResults.style.display = 'none';
+  
+    const row = document.querySelector('.row');
+    if (row && !document.querySelector('.row .no-results')) {
+      noResults.classList.add('no-results');
+      row.appendChild(noResults);
+    }
+  
+    // Search logic: shows/hides products based on search term
+    searchIcon.addEventListener('click', function (event) {
+      event.preventDefault();
+      const searchTerm = searchInput.value.toLowerCase().trim();
+      let found = false;
+      products.forEach(product => {
+        const title = product.querySelector('.product-title').textContent.toLowerCase();
+        const category = product.querySelector('.product-cat').textContent.toLowerCase();
+        if (title.includes(searchTerm) || category.includes(searchTerm)) {
+          product.style.display = '';
+          found = true;
+        } else {
+          product.style.display = 'none';
+        }
+      });
+      noResults.style.display = found ? 'none' : 'block';
+    });
+  </script>
+  </body>
+  </html>
