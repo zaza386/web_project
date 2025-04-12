@@ -185,7 +185,7 @@
         } else if (updateChoice === 'description1') {
             newValueDiv.style.display = 'none'; // Hide "New Value" input
             description1Div.style.display = 'block'; // Show description 1 textarea
-  hj
+
         } else if (updateChoice === 'description2') {
             newValueDiv.style.display = 'none'; // Hide "New Value" input
             description2Div.style.display = 'block'; // Show description 2 textarea
@@ -195,12 +195,12 @@
         }
     }
     </script>
-
     <div class="button-container"><!-- Buttons for adding and canceling the product -->
-      <button type="submit" id="modifyButton">Modify product</button>
-      <button type="button"id="cancelButton" >Cancel</button>
+      <button type="submit">Update product</button>
+      <button type="button" id="cancelButton">Cancel</button>
   </div>
-</form> 
+</form>
+
 <script>
   // Handle form submission
   const form = document.getElementById('productForm');
@@ -208,11 +208,47 @@
   form.onsubmit = function(e) {
       // Prevent the default form submission
       e.preventDefault();
-  
+
       // Get the selected update choice
     const updateChoice = document.getElementById('updateChoice').value;
-    
 
+      // Validation logic
+      if (!updateChoice) {
+      alert('Please select what you want to update.');
+      return;
+    }
+
+    if (updateChoice === 'image') {
+      const productImage = document.getElementById('productImage').value;
+      if (!productImage) {
+        alert('Please upload an image.');
+        return;
+      }
+    } else if (updateChoice === 'category') {
+      const category = document.getElementById('category').value;
+      if (!category) {
+        alert('Please select a category.');
+        return;
+      }
+    } else if (updateChoice === 'description1') {
+      const description1 = document.getElementById('description1').value.trim();
+      if (!description1) {
+        alert('Please enter a description for Product Description 1.');
+        return;
+      }
+    } else if (updateChoice === 'description2') {
+      const description2 = document.getElementById('description2').value.trim();
+      if (!description2) {
+        alert('Please enter a description for Product Description 2.');
+        return;
+      }
+    } else {
+      const newValue = document.getElementById('newValue').value.trim();
+      if (!newValue) {
+        alert('Please enter a new value.');
+        return;
+      }
+    }
 
     // If all validations pass, redirect to the manage product page
     window.location.href = "mange products.html" ; 
@@ -223,6 +259,7 @@
       form.reset();
   };</script>
 
+</script>
     </div>
     <footer class="footer"> <!--start footer -->
         <div class="footer-middle">
