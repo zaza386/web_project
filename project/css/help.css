@@ -1,0 +1,22 @@
+
+    /* Basic reset */
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+    }
+    h3 {
+        text-align: left; /* Align headings to the left */
+    }
+
+    p, ul {
+        text-align: left; /* Align paragraphs and lists to the left */
+    }
+
+    ul {
+        list-style-type: none; /* Remove bullet points */
+        padding: 0; /* Remove default padding */
+    }
+
+    li {
+        margin: 10px 0; /* Space between list items */}
