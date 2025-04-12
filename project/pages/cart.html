@@ -107,8 +107,14 @@
             document.querySelector('.cart-buttons-total a').addEventListener('click', function(e) {
                 e.preventDefault();
                 updateCartQuantities();
-                localStorage.removeItem("cart");
-                $('#thankYouModal').modal('show');
+                
+                const cart = JSON.parse(localStorage.getItem("cart")) || [];
+                if (cart.length === 0) {
+                    $('#emptyCartModal').modal('show');
+                } else {
+                    localStorage.removeItem("cart");
+                    $('#thankYouModal').modal('show');
+                }
             });
         });
     </script>
@@ -194,11 +200,24 @@
             <label><input type="radio" name="shipping" value="express" data-shipping="20"> Express: SAR 20.00</label><br>
             <p id="total">Total: SAR 0.00</p>
             <div class="cart-buttons-total">
-                <a href="#" class="btn btn-primary btn-round" data-toggle="modal" data-target="#thankYouModal">
+                <a href="#" class="btn btn-primary btn-round" data-toggle="modal">
                     <span>BUY</span><i class="icon-long-arrow-right"></i>
                 </a>
             </div>
         </div>
+    </div>
+
+    <!-- Empty Cart Modal -->
+    <div class="modal fade" id="emptyCartModal" tabindex="-1" role="dialog" aria-labelledby="emptyCartModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content text-center p-4">
+          <div class="modal-body">
+            <h2>🛒 Your Cart is Empty</h2>  
+            <p>Please add products to your cart before proceeding to checkout.</p>
+            <a href="../Index.html" class="btn btn-primary btn-round">Continue Shopping</a>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Thank You Modal -->
@@ -206,9 +225,9 @@
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content text-center p-4">
           <div class="modal-body">
-            <h2>🎉 Thank You!</h2>
+            <h2>🎉 Thank You!</h2>  
             <p>Your order has been placed successfully.</p>
-            <a href="../Index.html" id="empty-cart-button" class="btn btn-primary btn-round">Back to Home</a>
+            <a href="../Index.html" class="btn btn-primary btn-round">Back to Home</a>
           </div>
         </div>
       </div>
