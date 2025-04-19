@@ -1,306 +1,224 @@
 <?php
-session_start();
-include '../db.php';
+$prefix = "../";
+include $prefix . "db.php";
+include $prefix . "header.php";
 
-// إضافة المنتج للسلة
-$popupSuccess = false;
+// Get product from DB
+$product_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+$query = "SELECT * FROM product WHERE idProduct = $product_id";
+$result = mysqli_query($conn, $query);
+$row = mysqli_fetch_assoc($result);
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
-    $id = intval($_POST['id']);
-    $name = $_POST['name'];
-    $price = floatval($_POST['price']);
-    $picture = $_POST['picture'];
-    $quantity = intval($_POST['quantity']);
-
-    $newItem = [
-        'id' => $id,
-        'name' => $name,
-        'price' => $price,
-        'picture' => $picture,
-        'quantity' => $quantity
-    ];
-
-    if (!isset($_SESSION['cart'])) {
-        $_SESSION['cart'] = [];
-    }
-
-    $found = false;
-    foreach ($_SESSION['cart'] as &$item) {
-        if ($item['id'] === $id) {
-            $item['quantity'] += $quantity;
-            $found = true;
-            break;
-        }
-    }
-
-    if (!$found) {
-        $_SESSION['cart'][] = $newItem;
-    }
-
-    $popupSuccess = true;
+if (!$row) {
+  echo "<div class='container'><h2 class='text-center my-5'>Product not found.</h2></div>";
+  include $prefix . "footer.php";
+  exit;
 }
-
-// جلب بيانات المنتج من قاعدة البيانات
-if (!isset($_GET['id'])) {
-    echo "Product ID not provided.";
-    exit;
-}
-
-$id = intval($_GET['id']);
-$sql = "SELECT * FROM product WHERE idProduct = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $id);
-$stmt->execute();
-$result = $stmt->get_result();
-
-if ($result->num_rows === 0) {
-    echo "Product not found.";
-    exit;
-}
-
-$product = $result->fetch_assoc();
 ?>
 
+<!-- ZAINAB ALBADI -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title><?php echo htmlspecialchars($product['name']); ?> - Glamour</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details</title>
+    
     <!-- CSS Files -->
-    <link rel="stylesheet" href="../css/bootstrap.min.css">
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/product.css">
-    <link rel="stylesheet" href="../css/plugins/owl-carousel/owl.carousel.css">
-    <link rel="stylesheet" href="../css/plugins/magnific-popup/magnific-popup.css">
-    <link rel="stylesheet" href="../css/plugins/nouislider/nouislider.css">
+    <link rel="stylesheet" href="<?= $prefix ?>css/bootstrap.min.css">
+    <link rel="stylesheet" href="<?= $prefix ?>css/product.css">
+    <link rel="stylesheet" href="<?= $prefix ?>css/style.css">
+    <link rel="stylesheet" href="<?= $prefix ?>css/plugins/owl-carousel/owl.carousel.css">
+    <link rel="stylesheet" href="<?= $prefix ?>css/plugins/magnific-popup/magnific-popup.css">
+    <link rel="stylesheet" href="<?= $prefix ?>css/plugins/nouislider/nouislider.css">
 
+    <!-- Help Popup CSS -->
     <style>
         .popup-overlay {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5); z-index: 9999; display: none;
-            align-items: center; justify-content: center;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
         }
 
         .popup-content {
-            background: #fff; padding: 20px; border-radius: 8px;
-            width: 300px; text-align: center; position: relative;
-        }
-
-        .popup-content h4 {
-            margin-bottom: 15px;
-        }
-
-        .popup-content button {
-            margin-top: 10px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            width: 300px;
+            text-align: left;
+            position: relative;
         }
 
         .close-button {
-            position: absolute; right: 10px; top: 10px;
-            font-size: 20px; cursor: pointer;
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        .help-button {
+            background-color: #a94442;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            font-size: 20px;
+            line-height: 1;
+            text-align: center;
         }
     </style>
 </head>
 <body>
-<div class="page-wrapper">
+    <div class="page-wrapper">
 
-<!-- HEADER -->
-<header class="header">
-  <div class="header-top">
-    <div class="container">
-      <div class="header-left"></div>
-      <div class="header-right">
-        <ul class="top-menu">
-          <li><br>
-            <a href="#">Links</a>
-            <ul>
-              <li><i class="icon-phone"></i>Call: +966 5 0000 0000</li>
-              <li><a href="about.html">About Us</a></li>
-              <li><a href="contact.html">Contact Us</a></li>
-              <li><a href="login.html"><i class="icon-user"></i>Login</a></li>
-            </ul>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
-  <div class="header-middle sticky-header">
-    <div class="container">
-      <div class="header-left">
-        <button class="mobile-menu-toggler">
-          <span class="sr-only">Toggle mobile menu</span>
-          <i class="icon-bars"></i>
-        </button>
-        <a href="../index.php" class="logo">
-          <img src="../images/logo.png" alt="Glamour Logo" width="105" height="25">
-        </a>
-        <nav class="main-nav">
-          <ul class="menu">
-            <li><a href="../index.php">Home</a></li>
-            <li><a href="contact.html">Contact Us</a></li>
-            <li><a href="help.html">Help</a></li>
-          </ul>
-        </nav>
-      </div>
-      <div class="header-right">
-        <div class="cart">
-          <a href="cart.php" title="View Cart"><i class="icon-shopping-cart"></i></a>
-        </div>
-      </div>
-    </div>
-  </div>
-</header>
+        <!-- Product Section -->
+        <div class="container product-page">
+            <div class="row">
+                <!-- Product Image -->
+                <div class="col-md-6">
+                    <div class="product-gallery">
+                        <img id="product-zoom" src="<?= $prefix ?>images/<?= $row['picture'] ?>" alt="<?= htmlspecialchars($row['name']) ?>" class="img-fluid">
+                    </div>
+                </div>
 
-<!-- MAIN CONTENT -->
-<main class="main">
-  <div class="container product-page mt-5">
-    <div class="row">
-      <div class="col-md-6">
-        <div class="product-gallery">
-          <img src="../images/<?php echo $product['picture']; ?>" alt="<?php echo htmlspecialchars($product['name']); ?>" class="img-fluid">
-        </div>
-      </div>
+                <!-- Product Info -->
+                <div class="col-md-6">
+                    <h1 class="product_title"><?= htmlspecialchars($row['name']) ?></h1>
+                    <p class="product_price">SAR <?= number_format($row['price'], 2) ?></p>
+                    <p class="product_description"><?= htmlspecialchars($row['description1']) ?></p>
 
-      <div class="col-md-6">
-        <h1 class="product_title"><?php echo htmlspecialchars($product['name']); ?></h1>
-        <p class="product_price">SAR <?php echo number_format($product['price'], 2); ?></p>
-        <p class="product_description"><?php echo htmlspecialchars($product['description1']); ?></p>
+                    <div class="product-quantity">
+                        <label for="product-quantity">Qty:</label>
+                        <div class="input_group">
+                            <button class="btn btn_decrement btn-spinner" type="button">-</button>
+                            <input type="text" id="product_quantity" class="form-control" value="1" readonly>
+                            <button class="btn btn_increment btn-spinner" type="button">+</button>
+                        </div>
+                    </div>
 
-        <form method="POST" action="">
-          <input type="hidden" name="id" value="<?php echo $product['idProduct']; ?>">
-          <input type="hidden" name="name" value="<?php echo htmlspecialchars($product['name']); ?>">
-          <input type="hidden" name="price" value="<?php echo $product['price']; ?>">
-          <input type="hidden" name="picture" value="<?php echo $product['picture']; ?>">
-          <input type="hidden" name="add_to_cart" value="1">
-
-          <div class="product-quantity">
-            <label for="product_quantity">Qty:</label>
-            <div class="input_group">
-              <button class="btn btn_decrement btn-spinner" type="button">-</button>
-              <input type="text" id="product_quantity" name="quantity" class="form-control" value="1" readonly>
-              <button class="btn btn_increment btn-spinner" type="button">+</button>
+                    <div class="product-buttons">
+                        <button class="btn btn-primary btn-add-to-cart">Add to Cart</button>
+                        <a href="cart.html" class="btn btn-secondary btn-checkout">Checkout</a>
+                        <button class="help-button" onclick="openHelpPopup()">?</button>
+                    </div>
+                </div>
             </div>
-          </div>
 
-          <div class="product-buttons mt-3">
-            <button type="submit" class="btn btn-primary btn-round">Add to Cart</button>
-            <a href="cart.php" class="btn btn-primary btn-round">Checkout</a>
-          </div>
-        </form>
-      </div>
-    </div>
+            <!-- Product Tabs -->
+            <div class="product-tabs">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#description">Description</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#shipping-returns">Shipping & Returns</a>
+                    </li>
+                </ul>
 
-    <div class="product-tabs mt-5">
-      <ul class="nav nav-tabs">
-        <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#description">Description</a></li>
-        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#shipping-returns">Shipping & Returns</a></li>
-      </ul>
-      <div class="tab-content">
-        <div id="description" class="tab-pane fade show active mt-3">
-        <pre><?php echo nl2br(htmlspecialchars($product['description2'])); ?></pre>
-        </div>
-        <div id="shipping-returns" class="tab-pane fade mt-3">
+                <div class="tab-content">
+                    <div id="description" class="tab-pane fade show active">
+<pre><?= htmlspecialchars($row['description2']) ?></pre>
+                    </div>
+                    <div id="shipping-returns" class="tab-pane fade">
 <pre><strong>📦 Shipping Policy:</strong>
-We offer free standard shipping on all orders over SAR 200 within Saudi Arabia.
-Orders are processed within 1-2 business days and delivered within 3-5 business days in major cities.
-Express shipping is available for an additional charge, with delivery in 1-2 business days.
-We currently ship across Saudi Arabia; for GCC or international shipping, please contact our support team.
-Cash on Delivery (COD) is available for an additional fee of SAR 10. 
+
+Free standard shipping on orders over SAR 200 within Saudi Arabia.
+Orders are processed within 1-2 business days, delivered within 3-5 in major cities.
+Express delivery available within 1-2 days (extra charge). COD available for SAR 10.
 
 <strong>🔄 Return Policy:</strong>
-If you are not satisfied with your purchase, you may return unused and unopened products within 14 days of delivery for a full refund or exchange.
-Due to hygiene reasons, we cannot accept returns on used or opened products.
-If your order arrives damaged, defective, or incorrect, please contact us within 48 hours of delivery for a free replacement or refund.
-Customers are responsible for return shipping fees unless the item is damaged or incorrect.</pre>
-        </div>
-      </div>
-    </div>
-  </div>
-</main>
 
-<!-- FOOTER -->
-<footer class="footer mt-5">
-  <div class="footer-middle">
-    <div class="container">
-      <div class="row">
-        <div class="col-sm-6 col-lg-3">
-          <div class="widget widget-about">
-            <img src="../images/logo.png" class="footer-logo" alt="Footer Logo" width="105" height="25">
-            <p>Glamour is a premium online store dedicated to organic makeup, offering high-quality, chemical-free beauty products.</p>
-          </div>
-        </div>
-        <div class="col-sm-6 col-lg-3">
-          <div class="widget widget-links">
-            <h4>Quick Links</h4>
-            <ul>
-              <li><a href="about.html">About Us</a></li>
-              <li><a href="contact.html">Contact Us</a></li>
-              <li><a href="help.html">Help</a></li>
-              <li><a href="login.html">Login</a></li>
-            </ul>
-          </div>
-        </div>
-        <div class="col-sm-6 col-lg-3">
-          <div class="widget widget-social">
-            <h4>Follow Us</h4>
-            <div class="social-icons">
-              <a href="https://www.facebook.com/profile.php?id=61574225245811" class="social-icon"><i class="icon-facebook-f"></i></a>
-              <a href="https://x.com/GlamourOrganicC" class="social-icon"><i class="icon-twitter"></i></a>
-              <a href="https://www.instagram.com/glamourorganiccosmeticco/" class="social-icon"><i class="icon-instagram"></i></a>
-              <a href="https://www.youtube.com/" class="social-icon"><i class="icon-youtube"></i></a>
+Return unused/unopened items within 14 days for full refund or exchange.
+Used items are not returnable. Damaged/incorrect orders replaced for free within 48h notice.
+</pre>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
+
+        <!-- Added to Cart Modal -->
+        <div class="modal fade" id="addedToCartModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content text-center p-4">
+                    <div class="modal-body">
+                        <h2>🎉 Added to Cart!</h2>
+                        <p>Your item has been successfully added to your shopping cart.</p>
+                        <a href="cart.html" class="btn btn-primary btn-round">View Cart</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Help Popup -->
+        <div id="helpPopup" class="popup-overlay">
+            <div class="popup-content">
+                <span class="close-button" onclick="closeHelpPopup()">&times;</span>
+                <h4>Need Help?</h4>
+                <ul style="padding-left: 20px;">
+                    <li>Choose quantity using + / -</li>
+                    <li>Click "Add to Cart" to save item</li>
+                    <li>Click "Checkout" to place your order</li>
+                    <li>Email: support@Glamour_Organic.com</li>
+                </ul>
+                <button onclick="closeHelpPopup()" class="btn btn-sm btn-outline-primary">Got it!</button>
+            </div>
+        </div>
+
+        <?php include $prefix . "footer.php"; ?>
     </div>
-  </div>
-</footer>
 
-<!-- Success Popup -->
-<div id="successPopup" class="popup-overlay">
-  <div class="popup-content">
-    <span class="close-button" onclick="closePopup()">&times;</span>
-    <h4>Product Added!</h4>
-    <p>The item has been added to your cart.</p>
-    <a href="cart.php" class="btn btn-sm btn-primary">View Cart</a>
-    <button onclick="closePopup()" class="btn btn-sm btn-secondary">Continue Shopping</button>
-  </div>
-</div>
+    <!-- JavaScript Files -->
+    <script src="<?= $prefix ?>js/jquery.min.js"></script>
+    <script src="<?= $prefix ?>js/bootstrap.bundle.min.js"></script>
+    <script src="<?= $prefix ?>js/main.js"></script>
 
-</div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const quantityInput = document.getElementById("product_quantity");
+            const incrementButton = document.querySelector(".btn_increment");
+            const decrementButton = document.querySelector(".btn_decrement");
 
-<!-- Scripts -->
-<script src="../js/jquery.min.js"></script>
-<script src="../js/bootstrap.bundle.min.js"></script>
-<script>
-function closePopup() {
-  document.getElementById('successPopup').style.display = 'none';
-}
+            incrementButton.addEventListener("click", function () {
+                let currentValue = parseInt(quantityInput.value);
+                quantityInput.value = currentValue + 1;
+            });
 
-<?php if ($popupSuccess): ?>
-document.addEventListener('DOMContentLoaded', function () {
-  document.getElementById('successPopup').style.display = 'flex';
-});
-<?php endif; ?>
+            decrementButton.addEventListener("click", function () {
+                let currentValue = parseInt(quantityInput.value);
+                if (currentValue > 1) quantityInput.value = currentValue - 1;
+            });
 
-document.addEventListener("DOMContentLoaded", function () {
-  const quantityInput = document.getElementById("product_quantity");
-  const incrementButton = document.querySelector(".btn_increment");
-  const decrementButton = document.querySelector(".btn_decrement");
+            const addToCartButton = document.querySelector('.btn-add-to-cart');
+            addToCartButton.addEventListener('click', function () {
+                const quantity = parseInt(quantityInput.value);
+                const product = {
+                    name: "<?= addslashes($row['name']) ?>",
+                    price: <?= $row['price'] ?>,
+                    quantity: quantity
+                };
+                let cart = JSON.parse(localStorage.getItem("cart")) || [];
+                cart.push(product);
+                localStorage.setItem("cart", JSON.stringify(cart));
+                $('#addedToCartModal').modal('show');
+            });
+        });
 
-  incrementButton.addEventListener("click", function () {
-    let currentValue = parseInt(quantityInput.value);
-    quantityInput.value = currentValue + 1;
-  });
+        function openHelpPopup() {
+            document.getElementById("helpPopup").style.display = "flex";
+        }
 
-  decrementButton.addEventListener("click", function () {
-    let currentValue = parseInt(quantityInput.value);
-    if (currentValue > 1) {
-      quantityInput.value = currentValue - 1;
-    }
-  });
-});
-</script>
+        function closeHelpPopup() {
+            document.getElementById("helpPopup").style.display = "none";
+        }
+    </script>
 </body>
 </html>
