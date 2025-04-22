@@ -2,23 +2,68 @@
 // Since this file is in the "pages" folder, we go one level up for assets
 $prefix = "../";
 
+// Start session and check admin login
+session_start();
+if (!isset($_SESSION['admin_logged_in'])) {
+    header("Location: ../login.php");
+    exit;
+}
+
 // Include the shared header with dynamic menu highlighting
 include $prefix . "header.php";
+
+// Database connection
+include $prefix . "db.php";
+
+// Handle delete action
+if (isset($_GET['delete_id'])) {
+    $product_id = $_GET['delete_id'];
+    
+    // Prepare delete statement
+    $stmt = $conn->prepare("DELETE FROM product WHERE idProduct = ?");
+    $stmt->bind_param("i", $product_id);
+    
+    // Execute deletion
+    if ($stmt->execute()) {
+        $_SESSION['message'] = "Product deleted successfully";
+    } else {
+        $_SESSION['error'] = "Error deleting product: " . $conn->error;
+    }
+    
+    $stmt->close();
+    
+    // Redirect using the current script name (solves space issue)
+    header("Location: " . basename($_SERVER['PHP_SELF']));
+    exit;
+}
+
+// Display success/error messages
+if (isset($_SESSION['message'])) {
+    echo '<div class="alert alert-success">'.$_SESSION['message'].'</div>';
+    unset($_SESSION['message']);
+}
+if (isset($_SESSION['error'])) {
+    echo '<div class="alert alert-danger">'.$_SESSION['error'].'</div>';
+    unset($_SESSION['error']);
+}
 ?>
 <!-- ZAINAB ALBADI -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="keywords" content="Glamour, manage products, admin panel">
-  <meta name="description" content="Admin panel to manage Glamour products.">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Manage Products - Glamour</title>
-
-  <!-- Stylesheets -->
   <link rel="stylesheet" href="<?= $prefix ?>css/bootstrap.min.css">
   <link rel="stylesheet" href="<?= $prefix ?>css/style.css">
+  <script>
+    // Confirm before deleting
+    function confirmDelete(productId) {
+      if (confirm('Are you sure you want to delete this product?')) {
+        // Use current page URL to handle spaces in filename
+        window.location.href = window.location.pathname + '?delete_id=' + productId;
+      }
+    }
+  </script>
 </head>
 <body>
 <div class="page-wrapper">
@@ -30,7 +75,7 @@ include $prefix . "header.php";
       <h2>Manage The Products</h2>
 
       <!-- Button to add a new product -->
-      <a href="add operation.php" class="btn btn-primary btn-round" style="float: right; margin-top: -40px;">Add Product</a>
+      <a href="add_operation.php" class="btn btn-primary btn-round" style="float: right; margin-top: -40px;">Add Product</a>
 
       <p>Here you can modify, add, or delete products from your store.</p>
 
@@ -39,57 +84,37 @@ include $prefix . "header.php";
           <br>
           <div class="row">
 
-            <!-- Product 1 -->
-            <div class="col-6 col-md-4 col-lg-4">
-              <div class="product text-center">
-                <figure class="product-media">
-                  <a href="product.php"><img src="<?= $prefix ?>images/product-1.jpg" alt="Rosé Luxe Velvet Tint" class="product-image"></a>
-                </figure>
-                <div class="product-body">
-                  <div class="product-cat">Face</div>
-                  <h3 class="product-title"><a href="product.php">Rosé Luxe Velvet Tint</a></h3>
-                  <div class="product-price"><span class="new-price">SAR 95</span></div>
+            <?php
+            // Query all products from database
+            $sql = "SELECT * FROM product";
+            $result = $conn->query($sql);
 
-                  <!-- Action buttons -->
-                  <a style="margin: 10px;" href="update operation.php" class="btn btn-primary btn-round">Modify Product</a>
-                  <a href="#" class="btn btn-primary btn-round">Delete Product</a>
-                </div>
-              </div>
-            </div>
-
-            <!-- Product 2 -->
-            <div class="col-6 col-md-4 col-lg-4">
-              <div class="product text-center">
-                <figure class="product-media">
-                  <a href="product.php"><img src="<?= $prefix ?>images/product-2.jpg" alt="Cheeks Highlighter" class="product-image"></a>
-                </figure>
-                <div class="product-body">
-                  <div class="product-cat">Face</div>
-                  <h3 class="product-title"><a href="product.php">Cheeks Highlighter</a></h3>
-                  <div class="product-price"><span class="new-price">SAR 100</span></div>
-                  <a style="margin: 10px;" href="update operation.php" class="btn btn-primary btn-round">Modify Product</a>
-                  <a href="#" class="btn btn-primary btn-round">Delete Product</a>
-                </div>
-              </div>
-            </div>
-
-            <!-- Product 3 -->
-            <div class="col-6 col-md-4 col-lg-4">
-              <div class="product text-center">
-                <figure class="product-media">
-                  <a href="product.php"><img src="<?= $prefix ?>images/product-3.jpg" alt="Bronzer Stick" class="product-image"></a>
-                </figure>
-                <div class="product-body">
-                  <div class="product-cat">Face</div>
-                  <h3 class="product-title"><a href="product.php">Bronzer Stick</a></h3>
-                  <div class="product-price"><span class="new-price">SAR 80</span></div>
-                  <a style="margin: 10px;" href="update operation.php" class="btn btn-primary btn-round">Modify Product</a>
-                  <a href="#" class="btn btn-primary btn-round">Delete Product</a>
-                </div>
-              </div>
-            </div>
-
-            <!-- More static products can be added here -->
+            if ($result->num_rows > 0) {
+              while ($row = $result->fetch_assoc()) {
+                echo '
+                <div class="col-6 col-md-4 col-lg-4">
+                  <div class="product text-center">
+                    <figure class="product-media">
+                      <a href="product.php?id='.$row["idProduct"].'">
+                        <img src="'.$prefix.'images/'.$row["picture"].'" alt="'.$row["name"].'" class="product-image">
+                      </a>
+                    </figure>
+                    <div class="product-body">
+                      <div class="product-cat">'.$row["categories"].'</div>
+                      <h3 class="product-title"><a href="product.php?id='.$row["idProduct"].'">'.$row["name"].'</a></h3>
+                      <div class="product-price"><span class="new-price">SAR '.$row["price"].'</span></div>
+                      <a style="margin: 10px;" href="update_operation.php?id='.$row["idProduct"].'" class="btn btn-primary btn-round">Modify</a>
+                      <button onclick="confirmDelete('.$row["idProduct"].')" class="btn btn-danger btn-round">Delete</button>
+                    </div>
+                  </div>
+                </div>';
+              }
+            } else {
+              echo "<p class='text-center w-100'>No products found.</p>";
+            }
+            
+            $conn->close();
+            ?>
 
           </div>
         </div>
@@ -98,11 +123,9 @@ include $prefix . "header.php";
   </section>
 </main>
 
-<!-- Include footer -->
 <?php include $prefix . "footer.php"; ?>
 
 </div>
-
-<!-- You can add JavaScript later to handle delete/modify functionality -->
 </body>
 </html>
+      
