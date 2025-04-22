@@ -2,6 +2,7 @@
 <?php include $prefix . "header.php"; ?>
 <!DOCTYPE html>
 <!-- Budur Alqattan --> 
+<!-- Added by Zahra alsuwiki: Admin login functionality -->
 <html>
 <head>
     <meta charset="UTF-8">
@@ -28,7 +29,50 @@
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane fade show active" id="signin-2" role="tabpanel" aria-labelledby="signin-tab-2">
-                                <form action="#">
+                                <?php
+                                // Added by Zahra alsuwiki: Start session and check for login errors
+                                session_start();
+                                
+                                // Added by Zahra alsuwiki: Process login form
+                                if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                                    require_once __DIR__ . '/../db.php';
+                                    
+                                    $username = $_POST['signin-email'];
+                                    $password = $_POST['signin-password'];
+                                    
+                                    // Added by Zahra alsuwiki: Check admin credentials
+                                    $stmt = $conn->prepare("SELECT * FROM admin WHERE username = ?");
+                                    $stmt->bind_param("s", $username);
+                                    $stmt->execute();
+                                    $result = $stmt->get_result();
+                                    
+                                    if ($result->num_rows === 1) {
+                                        $admin = $result->fetch_assoc();
+                                        // Added by Zahra alsuwiki: Verify password (Note: In production, use password_verify() with hashed passwords)
+                                        if ($password === $admin['password']) {
+                                            $_SESSION['admin_logged_in'] = true;
+                                            $_SESSION['admin_id'] = $admin['idAdmin'];
+                                            $_SESSION['admin_name'] = $admin['name'];
+                                            header("Location: mange products.php");
+                                            exit;
+                                        } else {
+                                            $login_error = "Invalid username or password";
+                                        }
+                                    } else {
+                                        $login_error = "Invalid username or password";
+                                    }
+                                }
+                                ?>
+                                
+                                <!-- Added by Zahra alsuwiki: Display error message if login fails -->
+                                <?php if (isset($login_error)): ?>
+                                <div class="alert alert-danger">
+                                    <?php echo $login_error; ?>
+                                </div>
+                                <?php endif; ?>
+                                
+                                <!-- Changed by Zahra alsuwiki: Added method="POST" to form -->
+                                <form method="POST" action="">
                                     <div class="form-group">
                                         <label for="signin-email-2">Username or email address *</label>
                                         <input type="text" class="form-control" id="signin-email-2" name="signin-email" required>
@@ -41,7 +85,8 @@
 
                                     <div>
                                         <hr>
-                                        <a href="mange products.html" class="btn btn-primary btn-round"><span>Login</span><i class="icon-long-arrow-right"></i></a>
+                                        <!-- Changed by Zahra alsuwiki: Changed link to submit button -->
+                                        <button type="submit" class="btn btn-primary btn-round"><span>Login</span><i class="icon-long-arrow-right"></i></button>
                                     </div><!-- End .form-footer -->
                                 </form>
                             </div><!-- .End .tab-pane -->
