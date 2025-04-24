@@ -1,9 +1,11 @@
 <?php
 $prefix = "../";
+session_start();
 include $prefix . "db.php";
 include $prefix . "header.php";
 
 // Get product from DB
+//  ZAINAB ALBADI 
 $product_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 $query = "SELECT * FROM product WHERE idProduct = $product_id";
 $result = mysqli_query($conn, $query);
@@ -16,14 +18,14 @@ if (!$row) {
 }
 ?>
 
-<!-- ZAINAB ALBADI -->
+<!-- Raghad Bahawi: Product Page -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Details</title>
-    
+
     <!-- CSS Files -->
     <link rel="stylesheet" href="<?= $prefix ?>css/bootstrap.min.css">
     <link rel="stylesheet" href="<?= $prefix ?>css/product.css">
@@ -46,7 +48,6 @@ if (!$row) {
             align-items: center;
             justify-content: center;
         }
-
         .popup-content {
             background: #fff;
             padding: 20px;
@@ -55,7 +56,6 @@ if (!$row) {
             text-align: left;
             position: relative;
         }
-
         .close-button {
             position: absolute;
             right: 10px;
@@ -63,7 +63,6 @@ if (!$row) {
             cursor: pointer;
             font-size: 20px;
         }
-
         .help-button {
             background-color: #a94442;
             color: white;
@@ -107,7 +106,7 @@ if (!$row) {
 
                     <div class="product-buttons">
                         <button class="btn btn-primary btn-add-to-cart">Add to Cart</button>
-                        <a href="cart.html" class="btn btn-secondary btn-checkout">Checkout</a>
+                        <a href="cart.php" class="btn btn-secondary btn-checkout">Checkout</a>
                         <button class="help-button" onclick="openHelpPopup()">?</button>
                     </div>
                 </div>
@@ -146,19 +145,21 @@ Used items are not returnable. Damaged/incorrect orders replaced for free within
         </div>
 
         <!-- Added to Cart Modal -->
+        <!-- ZAINAB ALBADI -->
         <div class="modal fade" id="addedToCartModal" tabindex="-1" role="dialog">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content text-center p-4">
                     <div class="modal-body">
                         <h2>🎉 Added to Cart!</h2>
                         <p>Your item has been successfully added to your shopping cart.</p>
-                        <a href="cart.html" class="btn btn-primary btn-round">View Cart</a>
+                        <a href="cart.php" class="btn btn-primary btn-round">View Cart</a>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- Help Popup -->
+        <!-- ZAINAB ALBADI -->
         <div id="helpPopup" class="popup-overlay">
             <div class="popup-content">
                 <span class="close-button" onclick="closeHelpPopup()">&times;</span>
@@ -177,6 +178,7 @@ Used items are not returnable. Damaged/incorrect orders replaced for free within
     </div>
 
     <!-- JavaScript Files -->
+    <!-- Zahra Alsuwiki -->
     <script src="<?= $prefix ?>js/jquery.min.js"></script>
     <script src="<?= $prefix ?>js/bootstrap.bundle.min.js"></script>
     <script src="<?= $prefix ?>js/main.js"></script>
@@ -199,19 +201,24 @@ Used items are not returnable. Damaged/incorrect orders replaced for free within
 
             const addToCartButton = document.querySelector('.btn-add-to-cart');
             addToCartButton.addEventListener('click', function () {
-                const quantity = parseInt(quantityInput.value);
-                const product = {
-                    name: "<?= addslashes($row['name']) ?>",
-                    price: <?= $row['price'] ?>,
-                    quantity: quantity
-                };
-                let cart = JSON.parse(localStorage.getItem("cart")) || [];
-                cart.push(product);
-                localStorage.setItem("cart", JSON.stringify(cart));
-                $('#addedToCartModal').modal('show');
+                <?php if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true): ?>
+                    alert('Admins cannot add products to the cart.');
+                <?php else: ?>
+                    const quantity = parseInt(quantityInput.value);
+                    const product = {
+                        name: "<?= addslashes($row['name']) ?>",
+                        price: <?= $row['price'] ?>,
+                        quantity: quantity
+                    };
+                    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+                    cart.push(product);
+                    localStorage.setItem("cart", JSON.stringify(cart));
+                    $('#addedToCartModal').modal('show');
+                <?php endif; ?>
             });
         });
 
+        //ZAINAB ALBADI 
         function openHelpPopup() {
             document.getElementById("helpPopup").style.display = "flex";
         }
