@@ -1,4 +1,16 @@
 <?php
+// zainab albadi: Added the header for the page
+if (session_status() === PHP_SESSION_NONE) {
+  session_start();
+}
+// Handle logout action only on manage products page
+if (isset($_GET['action']) && $_GET['action'] === 'logout') {
+    session_unset();
+    session_destroy();
+    header("Location: login.php");
+    exit;
+}
+
 // Get the current file name to determine active menu item and where to show search
 $currentFile = basename($_SERVER['SCRIPT_NAME']);
 ?>
@@ -15,8 +27,10 @@ $currentFile = basename($_SERVER['SCRIPT_NAME']);
               <li><i class="icon-phone"></i>Call: +966 5 0000 0000</li>
               <li><a href="<?= $prefix ?>pages/about.php">About Us</a></li>
               <li><a href="<?= $prefix ?>pages/contact.php">Contact Us</a></li>
-              <?php if ($currentFile === 'login.php'): ?>
-                <li><a href="<?= $prefix ?>Index.php"><i class="icon-user"></i>Logout</a></li>
+              <?php if (isset($show_logout) && $show_logout && isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true): ?>
+                <li><a href="?action=logout"><i class="icon-user"></i>Logout</a></li>
+              <?php elseif (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true): ?>
+                <li><a href="<?= $prefix ?>pages/mange products.php"><i class="icon-user"></i>Manage</a></li>
               <?php else: ?>
                 <li><a href="<?= $prefix ?>pages/login.php"><i class="icon-user"></i>Login</a></li>
               <?php endif; ?>
