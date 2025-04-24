@@ -1,14 +1,16 @@
+<!-- Added by Zahra alsuwiki -->
 <?php
+$show_logout = true; // Show logout link in the header
 // Since this file is in the "pages" folder, we go one level up for assets
 $prefix = "../";
-
-// Start session and check admin login
-session_start();
-if (!isset($_SESSION['admin_logged_in'])) {
-    header("Location: ../login.php");
-    exit;
+if (session_status() === PHP_SESSION_NONE) {
+  session_start();
 }
-
+if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
+  $_SESSION['login_error'] = "You must log in first.";
+  header("Location: ../pages/login.php");
+  exit;
+}
 // Include the shared header with dynamic menu highlighting
 include $prefix . "header.php";
 
