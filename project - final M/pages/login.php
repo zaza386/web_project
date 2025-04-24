@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <!-- Budur Alqattan --> 
 <!-- Added by Zahra alsuwiki: Admin login functionality -->
+<!-- Edited by Zainab Albadi -->
 <html>
 <head>
     <meta charset="UTF-8">
@@ -31,7 +32,9 @@
                             <div class="tab-pane fade show active" id="signin-2" role="tabpanel" aria-labelledby="signin-tab-2">
                                 <?php
                                 // Added by Zahra alsuwiki: Start session and check for login errors
-                                session_start();
+                                if (session_status() === PHP_SESSION_NONE) {
+                                    session_start();
+                                }
                                 
                                 // Added by Zahra alsuwiki: Process login form
                                 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -41,8 +44,8 @@
                                     $password = $_POST['signin-password'];
                                     
                                     // Added by Zahra alsuwiki: Check admin credentials
-                                    $stmt = $conn->prepare("SELECT * FROM admin WHERE username = ?");
-                                    $stmt->bind_param("s", $username);
+                                    $stmt = $conn->prepare("SELECT * FROM admin WHERE username = ? OR email = ?");
+                                    $stmt->bind_param("ss", $username, $username);
                                     $stmt->execute();
                                     $result = $stmt->get_result();
                                     
@@ -65,22 +68,31 @@
                                 ?>
                                 
                                 <!-- Added by Zahra alsuwiki: Display error message if login fails -->
-                                <?php if (isset($login_error)): ?>
+                                <!-- Edited by Zainab Albadi: Display error message if true to enter manger page by the url -->
+                                <?php if (isset($login_error) || isset($_SESSION['login_error'])): ?>
                                 <div class="alert alert-danger">
-                                    <?php echo $login_error; ?>
+                                    <?php 
+                                    if (isset($login_error)) {
+                                        echo $login_error;
+                                    } else {
+                                        echo $_SESSION['login_error']; 
+                                        unset($_SESSION['login_error']); 
+                                    }
+                                    ?>
                                 </div>
                                 <?php endif; ?>
+
                                 
                                 <!-- Changed by Zahra alsuwiki: Added method="POST" to form -->
                                 <form method="POST" action="">
                                     <div class="form-group">
                                         <label for="signin-email-2">Username or email address *</label>
-                                        <input type="text" class="form-control" id="signin-email-2" name="signin-email" required>
+                                        <input type="text" class="form-control" id="signin-email-2" name="signin-email" required autocomplete="off">
                                     </div><!-- End .form-group -->
         
                                     <div class="form-group">
                                         <label for="signin-password-2">Password *</label>
-                                        <input type="password" class="form-control" id="signin-password-2" name="signin-password" required>
+                                        <input type="password" class="form-control" id="signin-password-2" name="signin-password" required autocomplete="off">
                                     </div><!-- End .form-group -->
 
                                     <div>
