@@ -1,17 +1,3 @@
-<?php
-$conn = mysqli_connect("localhost", "root", "", "glamour");
-$result = mysqli_query($conn, "SELECT * FROM products");
-echo "<h2>All Products</h2><table border='1'>";
-echo "<tr><th>Name</th><th>Price</th><th>Image</th></tr>";
-while ($row = mysqli_fetch_assoc($result)) {
-    echo "<tr>";
-    echo "<td>{$row['name']}</td>";
-    echo "<td>{$row['price']}</td>";
-    echo "<td><img src='images/{$row['image']}' width='50'></td>";
-    echo "</tr>";
-}
-echo "</table>";
-?>
 <!-- Added by Zahra alsuwiki -->
 <?php
 $show_logout = true; // Show logout link in the header
