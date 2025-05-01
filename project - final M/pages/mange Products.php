@@ -1,3 +1,4 @@
+<?php
 $conn = mysqli_connect("localhost", "root", "", "glamour");
 $result = mysqli_query($conn, "SELECT * FROM products");
 echo "<h2>All Products</h2><table border='1'>";
@@ -90,7 +91,7 @@ if (isset($_SESSION['error'])) {
       <h2>Manage The Products</h2>
 
       <!-- Button to add a new product -->
-      <a href="add_operation.php" class="btn btn-primary btn-round" style="float: right; margin-top: -40px;">Add Product</a>
+      <a href="add operation.php" class="btn btn-primary btn-round" style="float: right; margin-top: -40px;">Add Product</a>
 
       <p>Here you can modify, add, or delete products from your store.</p>
 
@@ -118,7 +119,7 @@ if (isset($_SESSION['error'])) {
                       <div class="product-cat">'.$row["categories"].'</div>
                       <h3 class="product-title"><a href="product.php?id='.$row["idProduct"].'">'.$row["name"].'</a></h3>
                       <div class="product-price"><span class="new-price">SAR '.$row["price"].'</span></div>
-                      <a style="margin: 10px;" href="update_operation.php?id='.$row["idProduct"].'" class="btn btn-primary btn-round">Modify</a>
+                      <a style="margin: 10px;" href="update operation.php?id='.$row["idProduct"].'" class="btn btn-primary btn-round">Modify</a>
                       <button onclick="confirmDelete('.$row["idProduct"].')" class="btn btn-danger btn-round">Delete</button>
                     </div>
                   </div>

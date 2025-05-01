@@ -88,7 +88,7 @@
   const form = document.getElementById('productForm');
   form.onsubmit = function(e) {
     e.preventDefault();
-    window.location.href = "mange Products.html";
+    window.location.href = "mange Products.php";
   };
   document.getElementById('cancelButton').onclick = function () {
     form.reset();
