@@ -21,6 +21,7 @@ $currentFile = basename($_SERVER['SCRIPT_NAME']);
       <div class="header-left"></div>
       <div class="header-right">
         <ul class="top-menu">
+        <script src="js/search.js" defer></script>
           <li><br>
             <a href="#">Links</a>
             <ul>
@@ -70,9 +71,9 @@ $currentFile = basename($_SERVER['SCRIPT_NAME']);
           </ul>
         </nav>
       </div>
-
+      <script src="js/search.js" defer></script>
       <div class="header-right">
-        <?php if ($currentFile === 'index.php' || $currentFile === 'manageProducts.php'): ?>
+      <?php if ($currentFile === 'Index.php' || $currentFile === 'index.php' || $currentFile === 'mange products.php'): ?>
         <!-- Search bar appears only in index.php and manageProducts.php -->
         <div class="header-search">
           <a href="#" id="searchIcon" class="search-toggle" role="button" title="Search"><i class="icon-search"></i></a>
@@ -83,7 +84,12 @@ $currentFile = basename($_SERVER['SCRIPT_NAME']);
             </div>
           </form>
         </div>
-        <?php endif; ?>
+      <?php endif; ?>
+      <?php if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true): ?>
+  <div class="cart">
+    <a href="<?= $prefix ?>pages/cart.html" role="button" title="View Cart"><i class="icon-shopping-cart"></i></a>
+  </div>
+<?php endif; ?>
       </div>
     </div>
   </div>
