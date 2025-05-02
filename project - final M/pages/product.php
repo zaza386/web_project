@@ -127,7 +127,27 @@ if (!$row) {
                     </div>
                 </div>
             </div>
+<!-- Budur Alqattan: Add Product Form -->
+            <hr>
+            <h3 class="mt-5">Add New Product</h3>
+            <form action="" method="POST" enctype="multipart/form-data" class="mb-5">
+                <div class="form-group">
+                    <label for="name">Product Name:</label>
+                    <input type="text" name="name" class="form-control" required>
+                </div>
 
+                <div class="form-group">
+                    <label for="price">Price (SAR):</label>
+                    <input type="number" name="price" class="form-control" required step="0.01">
+                </div>
+
+                <div class="form-group">
+                    <label for="image">Upload Product Image:</label>
+                    <input type="file" name="image" class="form-control-file" required>
+                </div>
+
+                <button type="submit" name="submit" class="btn btn-success">Add Product</button>
+            </form>
             <!-- Product Tabs -->
             <div class="product-tabs">
                 <ul class="nav nav-tabs">
