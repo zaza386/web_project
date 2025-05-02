@@ -25,6 +25,9 @@ include $prefix . "header.php";
 <div class="page-wrapper">
 
   <div class="container">
+
+
+
     <!-- Modify Product Form -->
     <header><h1>Modify Product</h1></header>
 
@@ -80,6 +83,12 @@ include $prefix . "header.php";
     </form>
   </div>
 
+
+
+
+
+
+  
   <!-- JavaScript to toggle input fields based on selection -->
   <script>
     function toggleInputType() {

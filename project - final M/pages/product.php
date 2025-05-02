@@ -95,6 +95,9 @@ if (!$row) {
 <body>
     <div class="page-wrapper">
 
+
+<!-- RAGHAD BAHAWI -->
+
         <!-- Product Section -->
         <div class="container product-page">
             <div class="row">
@@ -111,14 +114,28 @@ if (!$row) {
                     <p class="product_price">SAR <?= number_format($row['price'], 2) ?></p>
                     <p class="product_description"><?= htmlspecialchars($row['description1']) ?></p>
 
-                    <div class="product-quantity">
-                        <label for="product-quantity">Qty:</label>
-                        <div class="input_group">
-                            <button class="btn btn_decrement btn-spinner" type="button">-</button>
-                            <input type="text" id="product_quantity" class="form-control" value="1" readonly>
-                            <button class="btn btn_increment btn-spinner" type="button">+</button>
-                        </div>
-                    </div>
+         
+<!-- limit the quantity to max in database -->
+<div class="product-quantity">
+  <label for="product-quantity"><strong>Qty:</strong></label>
+  <div class="input_group">
+    <button type="button" class="btn btn_decrement btn-spinner" onclick="changeQty(-1)">-</button>
+    <input 
+      type="number" 
+      id="product_quantity" 
+      name="quantity" 
+      class="form-control" 
+      value="1" 
+      min="1" 
+      max="<?= $row['stock'] ?>" 
+      required>
+    <button type="button" class="btn btn_increment btn-spinner" onclick="changeQty(1)">+</button>
+  </div>
+</div>
+
+
+
+             
 
                     <div class="product-buttons">
                         <button class="btn btn-primary btn-add-to-cart">Add to Cart</button>
@@ -127,6 +144,18 @@ if (!$row) {
                     </div>
                 </div>
             </div>
+
+
+
+
+
+
+
+
+
+
+
+
 <!-- Budur Alqattan: Add Product Form -->
             <hr>
             <h3 class="mt-5">Add New Product</h3>
@@ -148,6 +177,18 @@ if (!$row) {
 
                 <button type="submit" name="submit" class="btn btn-success">Add Product</button>
             </form>
+
+
+
+
+
+
+
+
+
+
+
+
             <!-- Product Tabs -->
             <div class="product-tabs">
                 <ul class="nav nav-tabs">
@@ -181,6 +222,8 @@ Used items are not returnable. Damaged/incorrect orders replaced for free within
         </div>
 
         <!-- Added to Cart Modal -->
+
+
         <!-- ZAINAB ALBADI -->
         <div class="modal fade" id="addedToCartModal" tabindex="-1" role="dialog">
             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -213,55 +256,81 @@ Used items are not returnable. Damaged/incorrect orders replaced for free within
         <?php include $prefix . "footer.php"; ?>
     </div>
 
+
+    
+
     <!-- JavaScript Files -->
+
     <!-- Zahra Alsuwiki -->
-    <script src="<?= $prefix ?>js/jquery.min.js"></script>
-    <script src="<?= $prefix ?>js/bootstrap.bundle.min.js"></script>
-    <script src="<?= $prefix ?>js/main.js"></script>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const quantityInput = document.getElementById("product_quantity");
-            const incrementButton = document.querySelector(".btn_increment");
-            const decrementButton = document.querySelector(".btn_decrement");
 
-            incrementButton.addEventListener("click", function () {
-                let currentValue = parseInt(quantityInput.value);
-                quantityInput.value = currentValue + 1;
-            });
 
-            decrementButton.addEventListener("click", function () {
-                let currentValue = parseInt(quantityInput.value);
-                if (currentValue > 1) quantityInput.value = currentValue - 1;
-            });
 
-            const addToCartButton = document.querySelector('.btn-add-to-cart');
-            addToCartButton.addEventListener('click', function () {
-                <?php if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true): ?>
-                    alert('Admins cannot add products to the cart.');
-                <?php else: ?>
-                    const quantity = parseInt(quantityInput.value);
-                    const product = {
-                        name: "<?= addslashes($row['name']) ?>",
-                        price: <?= $row['price'] ?>,
-                        quantity: quantity
-                    };
-                    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-                    cart.push(product);
-                    localStorage.setItem("cart", JSON.stringify(cart));
-                    $('#addedToCartModal').modal('show');
-                <?php endif; ?>
-            });
-        });
+    <!--important for the popup to show after click-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-        //ZAINAB ALBADI 
-        function openHelpPopup() {
-            document.getElementById("helpPopup").style.display = "flex";
-        }
 
-        function closeHelpPopup() {
-            document.getElementById("helpPopup").style.display = "none";
-        }
-    </script>
+
+    <!-- jory : add to cart quantity -->
+
+   <script>
+document.addEventListener("DOMContentLoaded", function () {
+    const quantityInput = document.getElementById("product_quantity");
+    const addToCartButton = document.querySelector(".btn-add-to-cart");
+
+    addToCartButton.addEventListener("click", function () {
+        <?php if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true): ?>
+            alert('Admins cannot add products to the cart.');
+        <?php else: ?>
+            const quantity = parseInt(quantityInput.value);
+            const maxStock = parseInt(quantityInput.max);
+            const product = {
+                id: <?= $row['idProduct'] ?>,
+                name: "<?= addslashes($row['name']) ?>",
+                price: <?= $row['price'] ?>,
+                quantity: quantity,
+                stock: maxStock
+            };
+
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            let existingItem = cart.find(item => item.id === product.id);
+
+            if (existingItem) {
+                const newQty = existingItem.quantity + quantity;
+                if (newQty > maxStock) {
+                    alert(`Cannot add more than ${maxStock} items of this product.`);
+                    return;
+                }
+                existingItem.quantity = newQty;
+            } else {
+                cart.push(product);
+            }
+
+            localStorage.setItem("cart", JSON.stringify(cart));
+
+            const modal = new bootstrap.Modal(document.getElementById('addedToCartModal'));
+            modal.show();
+        <?php endif; ?>
+    });
+});
+
+</script>
+<!-- jory : limit  quantity-->
+<script>
+function changeQty(change) {
+    const input = document.getElementById('product_quantity');
+    const max = parseInt(input.max);
+    const min = parseInt(input.min);
+    let value = parseInt(input.value) || min;
+
+    value += change;
+
+    if (value < min) value = min;
+    if (value > max) value = max;
+
+    input.value = value;
+}
+</script>
+
 </body>
 </html>

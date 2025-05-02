@@ -39,6 +39,8 @@ if (isset($_GET['delete_id'])) {
     exit;
 }
 
+
+
 // Display success/error messages
 if (isset($_SESSION['message'])) {
     echo '<div class="alert alert-success">'.$_SESSION['message'].'</div>';
@@ -49,6 +51,9 @@ if (isset($_SESSION['error'])) {
     unset($_SESSION['error']);
 }
 ?>
+
+
+
 <!-- ZAINAB ALBADI -->
 <!DOCTYPE html>
 <html lang="en">
@@ -58,6 +63,8 @@ if (isset($_SESSION['error'])) {
   <link rel="stylesheet" href="<?= $prefix ?>css/bootstrap.min.css">
   <link rel="stylesheet" href="<?= $prefix ?>css/style.css">
   <script>
+
+
     // Confirm before deleting
     function confirmDelete(productId) {
       if (confirm('Are you sure you want to delete this product?')) {
@@ -74,7 +81,15 @@ if (isset($_SESSION['error'])) {
   <section class="middle-section">
     <div class="container">
       <br>
+
+
+
       <h2>Manage The Products</h2>
+
+
+
+
+
 
       <!-- Button to add a new product -->
       <a href="add operation.php" class="btn btn-primary btn-round" style="float: right; margin-top: -40px;">Add Product</a>
@@ -85,6 +100,16 @@ if (isset($_SESSION['error'])) {
         <div class="container">
           <br>
           <div class="row">
+
+
+
+
+
+
+
+
+
+
 
             <?php
             // Query all products from database
@@ -117,7 +142,15 @@ if (isset($_SESSION['error'])) {
             
             $conn->close();
             ?>
+
+
+
+
+
+
 <!-- Budur Alqattan -->
+
+
 <div class="container mt-5">
   <h4>Product Information (Admin View)</h4>
   <table class="table table-bordered table-striped">

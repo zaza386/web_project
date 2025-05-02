@@ -151,6 +151,13 @@
     font-weight: bold;
     margin-right: 10px;
 }
+.product-quantity button{
+    width: 15px;
+}
+
+#plus {
+    width: 15px;
+}
 
 
 .input_group {

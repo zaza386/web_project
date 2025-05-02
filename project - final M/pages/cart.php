@@ -1,5 +1,15 @@
-<?php $prefix = "../"; ?>
-<?php include $prefix . "header.php"; ?>
+<?php
+$prefix = "../";
+
+include $prefix . "db.php";
+include $prefix . "header.php";
+
+?>
+
+
+
+
+
 <!--Zahra Hussain ALshwuki-->
 <!DOCTYPE html>
 <html lang="en">
@@ -18,6 +28,13 @@
 
     <div class="cart-container">
         <div class="product-area">
+
+        <?php if (!empty($alertMessage)): ?>
+    <div style="background-color:#f8d7da;color:#721c24;padding:10px;border-radius:5px;margin-bottom:15px;">
+        <?= $alertMessage ?>
+    </div>
+<?php endif; ?>
+  
             <h2>Shopping Cart</h2>
             <div class="cart-table">
                 <table>
@@ -30,11 +47,8 @@
                             <th>Action</th>
                         </tr>
                     </thead>
-                    <tbody id="cart-items">
-                        <tr>
-                            <td colspan="5" class="empty-cart">Your cart is currently empty.</td>
-                        </tr>
-                    </tbody>
+                    <tbody id="cart-items"></tbody>
+
                 </table>
             </div>
             <div class="cart-buttons">
@@ -59,6 +73,23 @@
         </div>
     </div>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <!-- Empty Cart Modal -->
     <div class="modal fade" id="emptyCartModal" tabindex="-1" role="dialog" aria-labelledby="emptyCartModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
@@ -71,6 +102,29 @@
         </div>
       </div>
     </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     <!-- Thank You Modal -->
     <div class="modal fade" id="thankYouModal" tabindex="-1" role="dialog" aria-labelledby="thankYouModalLabel" aria-hidden="true">
@@ -88,17 +142,54 @@
     <?php include $prefix . "footer.php"; ?>
 </div>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <!-- Bootstrap JS (required for modal) -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="<?= $prefix ?>js/bootstrap.bundle.min.js"></script>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const cartItems = document.getElementById("cart-items");
 
-        function loadCartItems() {
+
+
+<!------ jory ------->
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const cartItems = document.getElementById("cart-items");
+        const alertPlaceholder = document.createElement("div");
+        alertPlaceholder.style.cssText = "background-color:#f8d7da;color:#721c24;padding:10px;border-radius:5px;margin-bottom:15px;";
+        let subtotal = 0;
+
+        function fetchStocks(callback) {
+            fetch('get_stocks.php')
+            // You’ll create this file
+                .then(response => response.json())
+                .then(data => callback(data));
+        }
+
+        function loadCartItems(stockData) {
             const cart = JSON.parse(localStorage.getItem("cart")) || [];
             cartItems.innerHTML = "";
+            subtotal = 0;
 
             if (cart.length === 0) {
                 cartItems.innerHTML = '<tr><td colspan="5" class="empty-cart">Your cart is currently empty.</td></tr>';
@@ -107,8 +198,8 @@
                 return;
             }
 
-            let subtotal = 0;
             cart.forEach((item, index) => {
+                const stock = stockData[item.id] || 0;
                 const total = item.price * item.quantity;
                 subtotal += total;
 
@@ -116,7 +207,9 @@
                 row.innerHTML = `
                     <td>${item.name}</td>
                     <td>SAR ${item.price.toFixed(2)}</td>
-                    <td><input type="number" min="1" value="${item.quantity}" class="quantity-input" data-index="${index}"></td>
+                    <td>
+                        <input type="number" min="1" max="${stock}" value="${item.quantity}" class="quantity-input" data-index="${index}" data-id="${item.id}">
+                    </td>
                     <td>SAR ${total.toFixed(2)}</td>
                     <td><button class="btn-remove" data-index="${index}">Remove</button></td>
                 `;
@@ -124,60 +217,76 @@
             });
 
             document.getElementById("subtotal").textContent = `Subtotal: SAR ${subtotal.toFixed(2)}`;
-            document.getElementById("total").textContent = `Total: SAR ${subtotal.toFixed(2)}`;
+            updateTotalWithShipping();
         }
 
-        loadCartItems();
+        function updateCartQuantities(stockData) {
+    const inputs = document.querySelectorAll('.quantity-input');
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    let exceeded = false;
 
-        document.getElementById("empty-cart-button").addEventListener("click", function() {
+    inputs.forEach(input => {
+        const index = input.dataset.index;
+        const id = input.dataset.id;
+        const quantity = parseInt(input.value);
+        const max = stockData[id] || 0;
+
+        if (quantity > max) {
+            exceeded = true;
+        } else {
+            cart[index].quantity = quantity;
+        }
+    });
+
+    if (exceeded) {
+        if (!document.getElementById("stock-alert")) {
+            const alertPlaceholder = document.createElement("div");
+            alertPlaceholder.id = "stock-alert";
+            alertPlaceholder.style.cssText = "background-color:#f8d7da;color:#721c24;padding:10px;border-radius:5px;margin-bottom:15px;";
+            alertPlaceholder.textContent = " You cannot exceed the available stock for one or more items.";
+            document.getElementById("cart-items").before(alertPlaceholder);
+
+            setTimeout(() => alertPlaceholder.remove(), 4000);
+        }
+    } else {
+        document.getElementById("stock-alert")?.remove();
+        localStorage.setItem("cart", JSON.stringify(cart));
+    }
+}
+        document.getElementById("empty-cart-button").addEventListener("click", function () {
             localStorage.removeItem("cart");
-            loadCartItems();
+            document.getElementById("stock-alert")?.remove();
+            fetchStocks(loadCartItems);
         });
 
-        document.getElementById("update-cart-button").addEventListener("click", function() {
-            updateCartQuantities();
-            loadCartItems();
+        document.getElementById("update-cart-button").addEventListener("click", function () {
+            fetchStocks(function (stockData) {
+                updateCartQuantities(stockData);
+                loadCartItems(stockData);
+            });
         });
 
-        cartItems.addEventListener("click", function(e) {
+        cartItems.addEventListener("click", function (e) {
             if (e.target.classList.contains("btn-remove")) {
                 const index = e.target.dataset.index;
                 let cart = JSON.parse(localStorage.getItem("cart")) || [];
                 cart.splice(index, 1);
                 localStorage.setItem("cart", JSON.stringify(cart));
-                loadCartItems();
+                fetchStocks(loadCartItems);
             }
         });
 
-        function updateCartQuantities() {
-            const quantityInputs = document.querySelectorAll('.quantity-input');
-            let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-            quantityInputs.forEach(input => {
-                const index = input.dataset.index;
-                const newQuantity = parseInt(input.value);
-
-                if (newQuantity >= 1 && cart[index]) {
-                    cart[index].quantity = newQuantity;
-                }
-            });
-
-            localStorage.setItem("cart", JSON.stringify(cart));
+        function updateTotalWithShipping() {
+            const shipping = parseFloat(document.querySelector('input[name="shipping"]:checked')?.dataset.shipping || 0);
+            document.getElementById("total").textContent = `Total: SAR ${(subtotal + shipping).toFixed(2)}`;
         }
 
         document.querySelectorAll('input[name="shipping"]').forEach(radio => {
-            radio.addEventListener('change', function() {
-                const shippingCost = parseFloat(this.dataset.shipping);
-                const subtotalText = document.getElementById("subtotal").textContent;
-                const subtotal = parseFloat(subtotalText.replace(/[^0-9.]/g, ''));
-                document.getElementById("total").textContent = `Total: SAR ${(subtotal + shippingCost).toFixed(2)}`;
-            });
+            radio.addEventListener('change', updateTotalWithShipping);
         });
 
-        document.querySelector('.cart-buttons-total a').addEventListener('click', function(e) {
+        document.querySelector('.cart-buttons-total a').addEventListener('click', function (e) {
             e.preventDefault();
-            updateCartQuantities();
-
             const cart = JSON.parse(localStorage.getItem("cart")) || [];
             if (cart.length === 0) {
                 $('#emptyCartModal').modal('show');
@@ -186,7 +295,11 @@
                 $('#thankYouModal').modal('show');
             }
         });
+
+        // Initial load
+        fetchStocks(loadCartItems);
     });
 </script>
+
 </body>
 </html>
