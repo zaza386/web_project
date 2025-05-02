@@ -144,18 +144,6 @@ if (!$row) {
                     </div>
                 </div>
             </div>
-
-
-
-
-
-
-
-
-
-
-
-
 <!-- Budur Alqattan: Add Product Form -->
             <hr>
             <h3 class="mt-5">Add New Product</h3>
@@ -177,18 +165,6 @@ if (!$row) {
 
                 <button type="submit" name="submit" class="btn btn-success">Add Product</button>
             </form>
-
-
-
-
-
-
-
-
-
-
-
-
             <!-- Product Tabs -->
             <div class="product-tabs">
                 <ul class="nav nav-tabs">
