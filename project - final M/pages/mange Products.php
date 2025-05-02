@@ -117,6 +117,47 @@ if (isset($_SESSION['error'])) {
             
             $conn->close();
             ?>
+<!-- Budur Alqattan -->
+<div class="container mt-5">
+  <h4>Product Information (Admin View)</h4>
+  <table class="table table-bordered table-striped">
+    <thead class="thead-dark">
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Categories</th>
+        <th>Price (SAR)</th>
+        <th>Quantity</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <?php
+      // Re-open DB connection if closed above
+      include_once $prefix . "db.php";
+
+      $info_sql = "SELECT * FROM product";
+      $info_result = $conn->query($info_sql);
+
+      if ($info_result->num_rows > 0) {
+        while ($prod = $info_result->fetch_assoc()) {
+          echo "<tr>";
+          echo "<td>{$prod['idProduct']}</td>";
+          echo "<td>{$prod['name']}</td>";
+          echo "<td>{$prod['categories']}</td>";
+          echo "<td>{$prod['price']}</td>";
+          echo "<td>{$prod['quantity']}</td>";
+          echo "<td>{$prod['description']}</td>";
+          echo "</tr>";
+        }
+      } else {
+        echo "<tr><td colspan='6' class='text-center'>No product data available.</td></tr>";
+      }
+      ?>
+    </tbody>
+  </table>
+</div>
+
 
           </div>
         </div>
