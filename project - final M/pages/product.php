@@ -139,7 +139,8 @@ if (!$row) {
 
                     <div class="product-buttons">
                         <button class="btn btn-primary btn-add-to-cart">Add to Cart</button>
-                        <a href="cart.php" class="btn btn-secondary btn-checkout">Checkout</a>
+                        <a href="#" id="btn-checkout" class="btn btn-secondary btn-checkout">Checkout</a>
+
                         <button class="help-button" onclick="openHelpPopup()">?</button>
                     </div>
                 </div>
@@ -170,7 +171,7 @@ if (!$row) {
             </form>
 
 
-            
+
             <!-- Product Tabs -->
             <div class="product-tabs">
                 <ul class="nav nav-tabs">
@@ -255,11 +256,13 @@ Used items are not returnable. Damaged/incorrect orders replaced for free within
 
     <!-- jory : add to cart quantity -->
 
-   <script>
+    <script>
 document.addEventListener("DOMContentLoaded", function () {
     const quantityInput = document.getElementById("product_quantity");
     const addToCartButton = document.querySelector(".btn-add-to-cart");
+    const checkoutButton = document.getElementById("btn-checkout");
 
+    //  Add to Cart
     addToCartButton.addEventListener("click", function () {
         <?php if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true): ?>
             alert('Admins cannot add products to the cart.');
@@ -289,14 +292,46 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
             localStorage.setItem("cart", JSON.stringify(cart));
-
             const modal = new bootstrap.Modal(document.getElementById('addedToCartModal'));
             modal.show();
         <?php endif; ?>
     });
-});
 
+    // Checkout Button: Add to cart and redirect
+    checkoutButton.addEventListener("click", function (e) {
+        e.preventDefault();
+
+        const quantity = parseInt(quantityInput.value);
+        const maxStock = parseInt(quantityInput.max);
+        const product = {
+            id: <?= $row['idProduct'] ?>,
+            name: "<?= addslashes($row['name']) ?>",
+            price: <?= $row['price'] ?>,
+            quantity: quantity,
+            stock: maxStock
+        };
+
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+        let existingItem = cart.find(item => item.id === product.id);
+
+        if (existingItem) {
+            const newQty = existingItem.quantity + quantity;
+            if (newQty > maxStock) {
+                alert(`Cannot add more than ${maxStock} items of this product.`);
+                return;
+            }
+            existingItem.quantity = newQty;
+        } else {
+            cart.push(product);
+        }
+
+        localStorage.setItem("cart", JSON.stringify(cart));
+        window.location.href = "cart.php";
+    });
+});
 </script>
+
+
 <!-- jory : limit  quantity-->
 <script>
 function changeQty(change) {
