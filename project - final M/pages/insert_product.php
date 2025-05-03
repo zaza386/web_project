@@ -30,38 +30,34 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"])) {
         }
 
         if (move_uploaded_file($_FILES["productImage"]["tmp_name"], $targetFile)) {
-            
-            // check if ID or name already exists
-$check = $conn->prepare("SELECT * FROM product WHERE idProduct = ? OR name = ?");
-$check->bind_param("is", $idProduct, $name);
-$check->execute();
-$result = $check->get_result();
 
-if ($result->num_rows > 0) {
-    // Redirect back with error flag
-    header("Location: add operation.php?error=duplicate");
-    exit;
-}
+            // check if ID or name already exists
+            $check = $conn->prepare("SELECT * FROM product WHERE idProduct = ? OR name = ?");
+            $check->bind_param("is", $id, $name); // FIXED: use $id, not undefined $idProduct
+            $check->execute();
+            $result = $check->get_result();
+
+            if ($result->num_rows > 0) {
+                // Redirect back with error flag
+                header("Location: add operation.php?error=duplicate");
+                exit;
+            }
 
             // Insert into database
             $sql = "INSERT INTO product (idProduct, name, price, stock, picture, categories, description1, description2) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-    
-    $stmt = mysqli_prepare($conn, $sql);
-    
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            $stmt = mysqli_prepare($conn, $sql);
+            mysqli_stmt_bind_param($stmt, "isdissss", $id, $name, $price, $quantity, $imageName, $category, $desc1, $desc2);
 
-          
-    mysqli_stmt_bind_param($stmt, "isdissss", $id, $name, $price, $quantity, $imageName, $category, $desc1, $desc2);
+            if (mysqli_stmt_execute($stmt)) {
+                header("Location: mange Products.php?success=1");
+                exit();
+            } else {
+                echo "<script>alert('Database error: " . mysqli_error($conn) . "');</script>";
+            }
 
-    if (mysqli_stmt_execute($stmt)) {
-        header("Location: mange Products.php?success=1");
-        exit();
-    } else {
-        echo "<script>alert('Database error: " . mysqli_error($conn) . "');</script>";
-    }
-    
-    mysqli_stmt_close($stmt);
-    
+            mysqli_stmt_close($stmt);
+
         } else {
             echo "<script>alert('Failed to upload image.');</script>";
         }
