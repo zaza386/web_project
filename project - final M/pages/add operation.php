@@ -1,5 +1,13 @@
 <?php $prefix = "../"; ?>
 <?php include $prefix . "header.php"; ?>
+
+<!-- show duplicate error message :budur algahtani-->
+<?php if (isset($_GET['error']) && $_GET['error'] == 'duplicate'): ?>
+  <div style="background-color: #f8d7da; color: #721c24; padding: 15px; margin-bottom: 15px; border: 1px solid #f5c6cb; border-radius: 5px; text-align: center;">
+    Product with this ID or Name already exists!
+  </div>
+<?php endif; ?>
+
 <!DOCTYPE html>
 <html>
 <head> <!--jory alqahtani -->

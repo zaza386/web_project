@@ -30,6 +30,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"])) {
         }
 
         if (move_uploaded_file($_FILES["productImage"]["tmp_name"], $targetFile)) {
+            
+            // check if ID or name already exists
+$check = $conn->prepare("SELECT * FROM product WHERE idProduct = ? OR name = ?");
+$check->bind_param("is", $idProduct, $name);
+$check->execute();
+$result = $check->get_result();
+
+if ($result->num_rows > 0) {
+    // Redirect back with error flag
+    header("Location: add operation.php?error=duplicate");
+    exit;
+}
+
             // Insert into database
             $sql = "INSERT INTO product (idProduct, name, price, stock, picture, categories, description1, description2) 
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)";

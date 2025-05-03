@@ -23,28 +23,24 @@ if (isset($_SESSION['admin_name'])) {
 // Database connection
 include $prefix . "db.php";
 
-// Handle delete action
+// Handle delete action : dana 
 if (isset($_GET['delete_id'])) {
-    $product_id = $_GET['delete_id'];
-    
-    // Prepare delete statement
-    $stmt = $conn->prepare("DELETE FROM product WHERE idProduct = ?");
-    $stmt->bind_param("i", $product_id);
-    
-    // Execute deletion
-    if ($stmt->execute()) {
-        $_SESSION['message'] = "Product deleted successfully";
-    } else {
-        $_SESSION['error'] = "Error deleting product: " . $conn->error;
-    }
-    
-    $stmt->close();
-    
-    // Redirect using the current script name (solves space issue)
-    header("Location: " . basename($_SERVER['PHP_SELF']));
-    exit;
-}
+  $product_id = $_GET['delete_id'];
 
+  $stmt = $conn->prepare("DELETE FROM product WHERE idProduct = ?");
+  $stmt->bind_param("i", $product_id);
+
+  if ($stmt->execute()) {
+      // redirect with success flag
+      header("Location: mange Products.php?deleted=1");
+  } else {
+      // redirect with error flag
+      header("Location: mange Products.php?deleted=0");
+  }
+
+  $stmt->close();
+  exit;
+}
 
 
 // Display success/error messages
@@ -61,9 +57,51 @@ if (isset($_SESSION['error'])) {
 
 <!-- massege success after click the add product :Budur Alqattan-->
 <?php if (isset($_GET['success']) && $_GET['success'] == 1): ?>
-    <div style="background-color: #d4edda; color: #155724; padding: 15px; margin: 20px auto; border: 1px solid #c3e6cb; border-radius: 5px; width: 80%; text-align: center;">
+    <div  id="successMsg" style="background-color: #d4edda; color: #155724; padding: 15px; margin: 20px auto; border: 1px solid #c3e6cb; border-radius: 5px; width: 80%; text-align: center;">
          Product added successfully!
     </div>
+    <!--disapeare after 5 second-->
+    <script>
+  setTimeout(function () {
+    const msg = document.getElementById('successMsg');
+    if (msg) {
+      msg.style.display = 'none';
+    }
+  }, 5000); // 5000 milliseconds = 5 seconds
+</script>
+<?php endif; ?>
+
+
+
+<!-- message success after update product :Dana-->
+<?php if (isset($_GET['updated']) && $_GET['updated'] == 1): ?>
+    <div id="successMsg" style="background-color: #d1ecf1; color: #155724; padding: 15px; margin: 20px auto; border: 1px solid #bee5eb; border-radius: 5px; width: 80%; text-align: center;">
+         Product updated successfully!
+    </div>
+    <!--disapeare after 5 second-->
+    <script>
+      setTimeout(function () {
+        const msg = document.getElementById('successMsg');
+        if (msg) {
+          msg.style.display = 'none';
+        }
+      }, 5000); // 5000 milliseconds = 5 seconds
+    </script>
+<?php endif; ?>
+
+<!-- message success after delete product :Dana-->
+<?php if (isset($_GET['deleted']) && $_GET['deleted'] == 1): ?>
+  <div id="deleteMsg" style="background-color: #d1ecf1; color: #155724; padding: 15px; margin: 20px auto; border: 1px solid #bee5eb; border-radius: 5px; width: 80%; text-align: center;">
+    Product deleted successfully!
+  </div>
+  <script>
+    setTimeout(function () {
+      const msg = document.getElementById('deleteMsg');
+      if (msg) {
+        msg.style.display = 'none';
+      }
+    }, 5000);
+  </script>
 <?php endif; ?>
 
 
