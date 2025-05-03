@@ -140,15 +140,25 @@ if (!$row) {
 
   </div>
     <!-- raghadbahawi : show the stock quantity for each product -->
-  <p style="margin-top: 8px; color: #777; font-size: 14px;">
-    Available: <?= $row['stock'] ?> in stock
-</p>
+  <?php if ($row['stock'] == 0): ?>
+    <p style="margin-top: 8px; color: red; font-size: 16px; font-weight: bold;">
+        Sold Out
+    </p>
+<?php else: ?>
+    <p style="margin-top: 8px; color: #777; font-size: 14px;">
+        Available: <?= $row['stock'] ?> in stock
+    </p>
+<?php endif; ?>
 
 </div>
 
 
                     <div class="product-buttons">
-                        <button class="btn btn-primary btn-add-to-cart">Add to Cart</button>
+                        <?php if ($row['stock'] == 0): ?>
+                            <button class="btn btn-primary btn-add-to-cart" disabled>Sold Out</button>
+                        <?php else: ?>
+                            <button class="btn btn-primary btn-add-to-cart">Add to Cart</button>
+                        <?php endif; ?>
                         <a href="#" id="btn-checkout" class="btn btn-secondary btn-checkout">Checkout</a>
                         <input type="hidden" id="product_id" value="<?= $row['idProduct'] ?>">
 
