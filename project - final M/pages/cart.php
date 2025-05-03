@@ -164,7 +164,7 @@ if (isset($_POST['empty_cart'])) {
 
 
 
-
+<!-- raghadbahawi: but button-->
             <div class="cart-buttons-total">
             <button id="buyNowBtn" class="btn btn-primary btn-round" type="button">
         <span>BUY</span><i class="icon-long-arrow-right"></i>
@@ -242,6 +242,8 @@ document.querySelectorAll('.quantity-input').forEach(input => {
 });
 </script>
 
+
+<!-- raghad bahawi : thanks popup after click buy button -->
 <script>
 document.getElementById('buyNowBtn').addEventListener('click', function () {
     fetch('buy_ajax.php', {
