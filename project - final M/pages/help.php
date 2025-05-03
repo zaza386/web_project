@@ -35,16 +35,16 @@
             <section>
               <h3>Frequently Asked Questions (FAQ)</h3>
               <ul>
-                <li><strong>Q:</strong> How do I log in? <br><strong>A:</strong> Click the login button and enter your info.</li>
-                <li><strong>Q:</strong> How do I reset my password? <br><strong>A:</strong> Click "Forgot password" on the login page.</li>
-                <li><strong>Q:</strong> How do I track my order? <br><strong>A:</strong> Check your email for tracking information or log in to your account.</li>
-                <li><strong>Q:</strong> What payment methods do you accept? <br><strong>A:</strong> We accept all major credit cards and cash on delivery.</li>
+                <li><strong>Q:</strong> What are our products made of? <br><strong>A:</strong> Our products are made from natural and organic materials.</li>
+                <li><strong>Q:</strong> Are our products trusted and safe? <br><strong>A:</strong> Yes, our products are trusted and safe for human use. Anyone can use them!</li>
+                <li><strong>Q:</strong> What are our best products? <br><strong>A:</strong> Our customers love our blush and lipstick.</li>
+                <li><strong>Q:</strong> When do I get free shipping? <br><strong>A:</strong> You get free shipping when your order total exceeds SAR 300.</li>
               </ul>
             </section>
         
             <section>
               <h3>Contact Support</h3>
-              <p>If you need help, email: <a href="mailto:support@glamour.com">support@glamour.com</a> or call us at +966 5 0000 0000</p>
+              <p>If you need help, email: <a href="mailto:support@glamour.com">support@glamour.com</a> or call us at ‪+966 5 0000 0000‬</p>
             </section>
           </div>
         </div>

@@ -87,7 +87,7 @@ $currentFile = basename($_SERVER['SCRIPT_NAME']);
       <?php endif; ?>
       <?php if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true): ?>
   <div class="cart">
-    <a href="<?= $prefix ?>pages/cart.php" role="button" title="View Cart"><i class="icon-shopping-cart"></i></a>
+    <a href="<?= $prefix ?>pages/cart.html" role="button" title="View Cart"><i class="icon-shopping-cart"></i></a>
   </div>
 <?php endif; ?>
       </div>

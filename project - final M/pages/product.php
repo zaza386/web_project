@@ -121,7 +121,7 @@ if (!$row) {
   <div class="input_group">
     <button type="button" class="btn btn_decrement btn-spinner" onclick="changeQty(-1)">-</button>
     <input 
-      type="number" 
+      type="text" 
       id="product_quantity" 
       name="quantity" 
       class="form-control" 
@@ -134,9 +134,6 @@ if (!$row) {
 </div>
 
 
-
-             
-
                     <div class="product-buttons">
                         <button class="btn btn-primary btn-add-to-cart">Add to Cart</button>
                         <a href="#" id="btn-checkout" class="btn btn-secondary btn-checkout">Checkout</a>
@@ -147,59 +144,32 @@ if (!$row) {
             </div>
 
 
-
-<!-- Budur Alqattan: Add Product Form -->
-            <hr>
-            <h3 class="mt-5">Add New Product</h3>
-            <form action="" method="POST" enctype="multipart/form-data" class="mb-5">
-                <div class="form-group">
-                    <label for="name">Product Name:</label>
-                    <input type="text" name="name" class="form-control" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="price">Price (SAR):</label>
-                    <input type="number" name="price" class="form-control" required step="0.01">
-                </div>
-
-                <div class="form-group">
-                    <label for="image">Upload Product Image:</label>
-                    <input type="file" name="image" class="form-control-file" required>
-                </div>
-
-                <button type="submit" name="submit" class="btn btn-success">Add Product</button>
-            </form>
-
-
-
             <!-- Product Tabs -->
-            <div class="product-tabs">
-                <ul class="nav nav-tabs">
-                    <li class="nav-item">
-                        <a class="nav-link active" data-toggle="tab" href="#description">Description</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#shipping-returns">Shipping & Returns</a>
-                    </li>
-                </ul>
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" data-bs-toggle="tab" href="#description">Description</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="tab" href="#shipping-returns">Shipping & Returns</a>
+                </li>
+            </ul>
 
-                <div class="tab-content">
-                    <div id="description" class="tab-pane fade show active">
-<pre><?= htmlspecialchars($row['description2']) ?></pre>
-                    </div>
-                    <div id="shipping-returns" class="tab-pane fade">
-<pre><strong>📦 Shipping Policy:</strong>
+            <div class="tab-content">
+                <div id="description" class="tab-pane fade show active">
+                    <pre><?= htmlspecialchars($row['description2']) ?></pre>
+                </div>
+                <div id="shipping-returns" class="tab-pane fade">
+                    <pre><strong>📦 Shipping Policy:</strong>
 
-Free standard shipping on orders over SAR 200 within Saudi Arabia.
-Orders are processed within 1-2 business days, delivered within 3-5 in major cities.
-Express delivery available within 1-2 days (extra charge). COD available for SAR 10.
+                    Free standard shipping on orders over SAR 300 within Saudi Arabia.
+                    Orders are processed within 1-2 business days, delivered within 3-5 in major cities.
+                    Express delivery available within 1-2 days (extra charge). COD available for SAR 10.
 
-<strong>🔄 Return Policy:</strong>
+                    <strong>🔄 Return Policy:</strong>
 
-Return unused/unopened items within 14 days for full refund or exchange.
-Used items are not returnable. Damaged/incorrect orders replaced for free within 48h notice.
-</pre>
-                    </div>
+                    Return unused/unopened items within 14 days for full refund or exchange.
+                    Used items are not returnable. Damaged/incorrect orders replaced for free within 48h notice.
+                    </pre>
                 </div>
             </div>
         </div>
@@ -283,7 +253,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (existingItem) {
                 const newQty = existingItem.quantity + quantity;
                 if (newQty > maxStock) {
-                    alert(`Cannot add more than ${maxStock} items of this product.`);
+                    alert(`Sorry, you can't add more than ${maxStock} items. only ${maxStock} left in stock.`);
                     return;
                 }
                 existingItem.quantity = newQty;
@@ -347,6 +317,14 @@ function changeQty(change) {
 
     input.value = value;
 }
+
+    function openHelpPopup() {
+        document.getElementById("helpPopup").style.display = "flex";
+    }
+
+    function closeHelpPopup() {
+        document.getElementById("helpPopup").style.display = "none";
+    }
 </script>
 
 </body>

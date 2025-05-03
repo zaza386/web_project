@@ -60,7 +60,7 @@ include $prefix . "header.php";
         <div class="cart-total-area">
             <h2>Cart Total</h2>
             <p id="subtotal">Subtotal: SAR 0.00</p>
-            <p>Shipping:</p>
+            <p id="shipping-cost">Shipping:</p>
             <label><input type="radio" name="shipping" value="free" data-shipping="0" checked> Free Shipping: SAR 0.00</label><br>
             <label><input type="radio" name="shipping" value="standard" data-shipping="10"> Standard: SAR 10.00</label><br>
             <label><input type="radio" name="shipping" value="express" data-shipping="20"> Express: SAR 20.00</label><br>
@@ -133,7 +133,7 @@ include $prefix . "header.php";
           <div class="modal-body">
             <h2>🎉 Thank You!</h2>  
             <p>Your order has been placed successfully.</p>
-            <a href="<?= $prefix ?>Index.html" class="btn btn-primary btn-round">Back to Home</a>
+            <a href="<?= $prefix ?>Index.php" class="btn btn-primary btn-round">Back to Home</a>
           </div>
         </div>
       </div>
@@ -277,13 +277,29 @@ include $prefix . "header.php";
         });
 
         function updateTotalWithShipping() {
-            const shipping = parseFloat(document.querySelector('input[name="shipping"]:checked')?.dataset.shipping || 0);
-            document.getElementById("total").textContent = `Total: SAR ${(subtotal + shipping).toFixed(2)}`;
+            const shippingRadios = document.querySelectorAll('input[name="shipping"]');
+            let shippingCost = parseFloat(document.querySelector('input[name="shipping"]:checked')?.dataset.shipping || 0);
+
+            // Check if subtotal is 300 or more
+            if (subtotal >= 300) {
+                shippingCost = 0; // Apply free shipping
+                document.getElementById("shipping-cost").textContent = "Shipping: Free (SAR 0.00)";
+            } else {
+                document.getElementById("shipping-cost").textContent = `Shipping: SAR ${shippingCost.toFixed(2)}`;
+            }
+
+            // Update total
+            const total = subtotal + shippingCost;
+            document.getElementById("total").textContent = `Total: SAR ${total.toFixed(2)}`;
         }
 
+        // Add event listeners for shipping options
         document.querySelectorAll('input[name="shipping"]').forEach(radio => {
             radio.addEventListener('change', updateTotalWithShipping);
         });
+
+        // Initial call to update totals
+        updateTotalWithShipping();
 
         document.querySelector('.cart-buttons-total a').addEventListener('click', function (e) {
             e.preventDefault();
