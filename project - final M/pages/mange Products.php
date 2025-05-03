@@ -126,6 +126,9 @@ if (isset($_SESSION['error'])) {
       }
     }
   </script>
+  <!-- for search bar -->
+  <script src="<?= $prefix ?>js/search.js" defer></script>
+
 </head>
 <body>
 <div class="page-wrapper">
