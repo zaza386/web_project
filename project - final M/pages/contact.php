@@ -2,6 +2,7 @@
 <?php include $prefix . "header.php"; ?>
 
 
+
 <!-- Zinab Mukhtar Al-Rashed --> 
 <!DOCTYPE html>
 <html>
@@ -25,7 +26,7 @@
                     <div class="col-lg-6 mb-3 mb-lg-0">
                         <h1 class="title">Contact Us</h1>
                         <p class="mb-2">We're here to help! Please reach out with any questions, comments, or feedback.</p>
-                        <form id="contactForm">
+                        <form id="contactForm" method="POST" action="">
                             <label>Name:
                                 <input type="text" id="name" name="name" required>
                             </label><br>
@@ -84,7 +85,7 @@
                 <div class="modal-body">
                     <h2>🎉 Thank You!</h2>
                     <p>Your message has been sent successfully.</p>
-                    <a href="<?= $prefix ?>Index.html" id="empty-cart-button" class="btn btn-primary btn-round">Back to Home</a>
+                    <a href="<?= $prefix ?>Index.php" id="empty-cart-button" class="btn btn-primary btn-round">Back to Home</a>
                 </div>
             </div>
         </div>
@@ -99,9 +100,18 @@
 <script>
     document.getElementById("contactForm").addEventListener("submit", function(event) {
         event.preventDefault();
-        var myModal = new bootstrap.Modal(document.getElementById('thankYouModal'));
-        myModal.show();
-        this.reset();
+
+        // Validate Saudi phone number format
+        const phoneInput = document.getElementById("phone").value.trim();
+        const phoneRegex = /^(?:\+966|05)[0-9]{8}$/;
+
+        if (phoneInput && !phoneRegex.test(phoneInput)) {
+            alert("Please enter a valid Saudi phone number (e.g., +966500000000 or 0500000000).");
+            return;
+        }
+
+        // Submit the form if validation passes
+        this.submit();
     });
 </script>
 </body>
