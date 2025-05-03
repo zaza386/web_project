@@ -4,34 +4,28 @@ session_start();
 include $prefix . "db.php";
 include $prefix . "header.php";
 
-// Handle product addition (if POST)
-if (isset($_POST['submit'])) {
-    $name = $_POST['name'];
-    $price = $_POST['price'];
-    $image = $_FILES['image']['name'];
-    $target = $prefix . "images/" . basename($image);
+// Validate and fetch product ID safely
+$product_id = isset($_GET['id']) ? $_GET['id'] : null;
 
-    if (move_uploaded_file($_FILES['image']['tmp_name'], $target)) {
-        $sql = "INSERT INTO product (name, price, picture) VALUES ('$name', '$price', '$image')";
-        mysqli_query($conn, $sql);
-        echo "<script>alert('Product added successfully!');</script>";
-    } else {
-        echo "<script>alert('Failed to upload image.');</script>";
-    }
+if (!filter_var($product_id, FILTER_VALIDATE_INT)) {
+    echo "<div class='container'><h2 class='text-center my-5'>Invalid product ID.</h2></div>";
+    include $prefix . "footer.php";
+    exit;
 }
 
-// Get product from DB
-$product_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
-$query = "SELECT * FROM product WHERE idProduct = $product_id";
-$result = mysqli_query($conn, $query);
-$row = mysqli_fetch_assoc($result);
+// Use prepared statement to avoid SQL injection
+$stmt = $conn->prepare("SELECT * FROM product WHERE idProduct = ?");
+$stmt->bind_param("i", $product_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$row = $result->fetch_assoc();
+$stmt->close();
 
 if (!$row) {
     echo "<div class='container'><h2 class='text-center my-5'>Product not found.</h2></div>";
     include $prefix . "footer.php";
     exit;
 }
-
 ?>
 
 <!-- Raghad Bahawi: Product Page -->
@@ -96,7 +90,7 @@ if (!$row) {
     <div class="page-wrapper">
 
 
-<!-- RAGHAD BAHAWI -->
+<!-- RAGHAD BAHAWI: desgin-->
 
         <!-- Product Section -->
         <div class="container product-page">

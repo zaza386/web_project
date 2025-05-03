@@ -26,7 +26,9 @@
   <section class="middle-section">
     <div class="container">
       <br> 
-      <form id="productForm" action="add_product.php" method="post" enctype="multipart/form-data">
+      <form id="productForm" action="insert_product.php" method="post" enctype="multipart/form-data">
+  
+
         <div class="form-group">
           <label for="productId">Product ID:</label>
           <input type="text" id="productId" name="productId" required autocomplete="on" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
@@ -73,7 +75,8 @@
         </div>
 
         <div class="button-container">
-          <button type="submit">Add product</button>
+        <button type="submit" name="submit">Add product</button>
+
           <button type="button" id="cancelButton">Cancel</button>
         </div>
       </form>
@@ -85,13 +88,8 @@
 
 <!-- Script for cancel/reset -->
 <script>
-  const form = document.getElementById('productForm');
-  form.onsubmit = function(e) {
-    e.preventDefault();
-    window.location.href = "mange Products.php";
-  };
   document.getElementById('cancelButton').onclick = function () {
-    form.reset();
+    document.getElementById('productForm').reset();
   };
 </script>
 
