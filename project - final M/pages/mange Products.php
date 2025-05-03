@@ -14,6 +14,11 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
 // Include the shared header with dynamic menu highlighting
 include $prefix . "header.php";
 
+//zinab alrashed welcome massage
+if (isset($_SESSION['admin_name'])) {
+  $adminName = $_SESSION['admin_name'];
+  echo "<div class='container' style='font-size: 2em; text-align: center;'><h2>Welcome, Admin <strong>$adminName</strong>!</h2></div>";
+}
 
 // Database connection
 include $prefix . "db.php";
