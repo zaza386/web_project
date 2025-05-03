@@ -31,8 +31,8 @@ if (!$row) {
     include $prefix . "footer.php";
     exit;
 }
-?>
 
+?>
 
 <!-- Raghad Bahawi: Product Page -->
 <!DOCTYPE html>
@@ -115,7 +115,7 @@ if (!$row) {
                     <p class="product_description"><?= htmlspecialchars($row['description1']) ?></p>
 
          
-<!-- limit the quantity to max in database -->
+<!-- raghadbahawi : limit the quantity to max in database-->
 <div class="product-quantity">
   <label for="product-quantity"><strong>Qty:</strong></label>
   <div class="input_group">
@@ -129,14 +129,34 @@ if (!$row) {
       min="1" 
       max="<?= $row['stock'] ?>" 
       required>
+
+<!-- raghad : buttons diapper when it not availabele -->
+
+<?php if ($row['stock'] == 0): ?>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            document.querySelector(".btn-add-to-cart").disabled = true;
+            document.querySelector(".btn-checkout").disabled = true;
+        });
+    </script>
+<?php endif; ?>
+
     <button type="button" class="btn btn_increment btn-spinner" onclick="changeQty(1)">+</button>
+
+
   </div>
+    <!-- raghadbahawi : show the stock quantity for each product -->
+  <p style="margin-top: 8px; color: #777; font-size: 14px;">
+    Available: <?= $row['stock'] ?> in stock
+</p>
+
 </div>
 
 
                     <div class="product-buttons">
                         <button class="btn btn-primary btn-add-to-cart">Add to Cart</button>
                         <a href="#" id="btn-checkout" class="btn btn-secondary btn-checkout">Checkout</a>
+                        <input type="hidden" id="product_id" value="<?= $row['idProduct'] ?>">
 
                         <button class="help-button" onclick="openHelpPopup()">?</button>
                     </div>
@@ -229,80 +249,65 @@ if (!$row) {
     <script>
 document.addEventListener("DOMContentLoaded", function () {
     const quantityInput = document.getElementById("product_quantity");
-    const addToCartButton = document.querySelector(".btn-add-to-cart");
-    const checkoutButton = document.getElementById("btn-checkout");
+    const addToCartBtn = document.querySelector(".btn-add-to-cart");
+    const checkoutBtn = document.getElementById("btn-checkout");
 
-    //  Add to Cart
-    addToCartButton.addEventListener("click", function () {
-        <?php if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true): ?>
-            alert('Admins cannot add products to the cart.');
-        <?php else: ?>
-            const quantity = parseInt(quantityInput.value);
-            const maxStock = parseInt(quantityInput.max);
-            const product = {
-                id: <?= $row['idProduct'] ?>,
-                name: "<?= addslashes($row['name']) ?>",
-                price: <?= $row['price'] ?>,
-                quantity: quantity,
-                stock: maxStock
-            };
-
-            let cart = JSON.parse(localStorage.getItem("cart")) || [];
-            let existingItem = cart.find(item => item.id === product.id);
-
-            if (existingItem) {
-                const newQty = existingItem.quantity + quantity;
-                if (newQty > maxStock) {
-                    alert(`Sorry, you can't add more than ${maxStock} items. only ${maxStock} left in stock.`);
-                    return;
-                }
-                existingItem.quantity = newQty;
-            } else {
-                cart.push(product);
-            }
-
-            localStorage.setItem("cart", JSON.stringify(cart));
-            const modal = new bootstrap.Modal(document.getElementById('addedToCartModal'));
-            modal.show();
-        <?php endif; ?>
-    });
-
-    // Checkout Button: Add to cart and redirect
-    checkoutButton.addEventListener("click", function (e) {
-        e.preventDefault();
-
+    function sendToCart(redirect = false) {
         const quantity = parseInt(quantityInput.value);
-        const maxStock = parseInt(quantityInput.max);
-        const product = {
-            id: <?= $row['idProduct'] ?>,
-            name: "<?= addslashes($row['name']) ?>",
-            price: <?= $row['price'] ?>,
-            quantity: quantity,
-            stock: maxStock
+
+        //  Frontend validation before sending
+        const max = parseInt(quantityInput.max);
+
+if (max === 0) {
+    alert("This product is currently out of stock.");
+    return;
+}
+
+if (isNaN(quantity) || quantity < 1) {
+    alert("Please select a valid quantity.");
+    return;
+}
+
+
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "../pages/add_to_cart.php", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+        xhr.onload = function () {
+            try {
+                const res = JSON.parse(xhr.responseText);
+                if (res.success) {
+                    if (redirect) {
+                        window.location.href = "cart.php";
+                    } else {
+                        const modal = new bootstrap.Modal(document.getElementById("addedToCartModal"));
+                        modal.show();
+                    }
+                } else {
+                    alert(res.message);
+                }
+            } catch (error) {
+                alert("Something went wrong while processing your request.");
+            }
         };
 
-        let cart = JSON.parse(localStorage.getItem("cart")) || [];
-        let existingItem = cart.find(item => item.id === product.id);
+        xhr.send("product_id=<?= $row['idProduct'] ?>&quantity=" + quantity);
+    }
 
-        if (existingItem) {
-            const newQty = existingItem.quantity + quantity;
-            if (newQty > maxStock) {
-                alert(`Cannot add more than ${maxStock} items of this product.`);
-                return;
-            }
-            existingItem.quantity = newQty;
-        } else {
-            cart.push(product);
-        }
+    addToCartBtn.addEventListener("click", function () {
+        sendToCart(false);
+    });
 
-        localStorage.setItem("cart", JSON.stringify(cart));
-        window.location.href = "cart.php";
+    checkoutBtn.addEventListener("click", function (e) {
+        e.preventDefault();
+        sendToCart(true);
     });
 });
 </script>
 
 
 <!-- jory : limit  quantity-->
+
 <script>
 function changeQty(change) {
     const input = document.getElementById('product_quantity');
@@ -325,6 +330,11 @@ function changeQty(change) {
     function closeHelpPopup() {
         document.getElementById("helpPopup").style.display = "none";
     }
+
+
+
+  
+
 </script>
 
 </body>
