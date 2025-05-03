@@ -54,11 +54,15 @@ if (isset($_SESSION['error'])) {
 ?>
 
 
+<!-- massege success after click the add product :Budur Alqattan-->
 <?php if (isset($_GET['success']) && $_GET['success'] == 1): ?>
     <div style="background-color: #d4edda; color: #155724; padding: 15px; margin: 20px auto; border: 1px solid #c3e6cb; border-radius: 5px; width: 80%; text-align: center;">
          Product added successfully!
     </div>
 <?php endif; ?>
+
+
+
 
 <!-- ZAINAB ALBADI -->
 <!DOCTYPE html>
@@ -102,7 +106,7 @@ if (isset($_SESSION['error'])) {
 
 
             <?php
-            // Query all products from database
+            // Query all products from database (retrive) : Budur Alqattan-----------------
             $sql = "SELECT * FROM product";
             $result = $conn->query($sql);
 
