@@ -173,14 +173,12 @@ if (!$row) {
                     <pre><?= htmlspecialchars($row['description2']) ?></pre>
                 </div>
                 <div id="shipping-returns" class="tab-pane fade">
-                    <pre><strong>📦 Shipping Policy:</strong>
-
+                    <pre><strong>📦 Shipping Policy:</strong> 
                     Free standard shipping on orders over SAR 300 within Saudi Arabia.
                     Orders are processed within 1-2 business days, delivered within 3-5 in major cities.
                     Express delivery available within 1-2 days (extra charge). COD available for SAR 10.
 
-                    <strong>🔄 Return Policy:</strong>
-
+<strong>🔄 Return Policy:</strong>
                     Return unused/unopened items within 14 days for full refund or exchange.
                     Used items are not returnable. Damaged/incorrect orders replaced for free within 48h notice.
                     </pre>

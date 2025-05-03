@@ -81,7 +81,7 @@ if (isset($_POST['empty_cart'])) {
             <h2>Shopping Cart</h2>
             <form method="post">
                 <div class="cart-table">
-                    <table class="table">
+                    <table>
                         <thead>
                         <tr>
                             <th>Product</th>
@@ -122,7 +122,7 @@ if (isset($_POST['empty_cart'])) {
                                 </td>
                                 <td>SAR " . number_format($total, 2) . "</td>
                                 <td>
-                                    <button type='submit' name='remove_item' value='$index' class='btn btn-danger btn-sm'>Remove</button>
+                                    <button type='submit' name='remove_item' value='$index' class='btn-remove'>Remove</button>
                                 </td>
                             </tr>";
                             
@@ -206,7 +206,7 @@ function updateTotal() {
     const shipping = parseFloat(document.querySelector('input[name="shipping"]:checked').value);
     const total = subtotal + shipping;
 
-    document.getElementById('total').innerText = `SAR ${total.toFixed(2)}`;
+    document.getElementById('total').innerText = SAR ${total.toFixed(2)};
 }
 </script>
 <script>
@@ -264,4 +264,3 @@ document.getElementById('buyNowBtn').addEventListener('click', function () {
 
 </body>
 </html>
-

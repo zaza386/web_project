@@ -14,6 +14,41 @@
     <link rel="stylesheet" href="<?= $prefix ?>css/bootstrap.min.css">  
     <link rel="stylesheet" href="<?= $prefix ?>css/style.css">
     <link rel="stylesheet" href="<?= $prefix ?>css/cart.css">
+    <style>
+    #contactForm {
+        max-width: 600px; 
+        margin: 0 auto;
+    }
+
+    #contactForm .form-group {
+        margin-bottom: 3px; 
+    }
+
+    #contactForm label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 2px; 
+        font-size: 10px; 
+    }
+
+    #contactForm input,
+    #contactForm select,
+    #contactForm textarea {
+        width: 100%;
+        padding: 4px; 
+        border: 1px solid #ccc;
+        border-radius: 2px;
+        box-sizing: border-box;
+        font-size: 12px; 
+    }
+
+    #contactForm .button-container button {
+        flex: 1;
+        padding: 10px; /* إعادة الحشو داخل الأزرار */
+        font-size: 16px; /* إعادة حجم النص داخل الأزرار */
+        border-radius: 5px;
+    }
+  </style>
 </head>
 <body>
 <div class="page-wrapper">
