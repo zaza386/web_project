@@ -56,7 +56,7 @@ if (isset($_POST['empty_cart'])) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Shopping Cart</title>
+    <title>Shopping Cart | Glamour</title>
     <link rel="stylesheet" href="<?= $prefix ?>css/bootstrap.min.css">
     <link rel="stylesheet" href="<?= $prefix ?>css/style.css">
     <link rel="stylesheet" href="<?= $prefix ?>css/cart.css">
@@ -204,9 +204,13 @@ document.querySelectorAll('input[name="shipping"]').forEach(radio => {
 function updateTotal() {
     const subtotal = parseFloat(document.querySelector('#subtotal').dataset.value);
     const shipping = parseFloat(document.querySelector('input[name="shipping"]:checked').value);
-    const total = subtotal + shipping;
+    let total = subtotal;
 
-    document.getElementById('total').innerText = SAR ${total.toFixed(2)};
+    if (subtotal < 300) {
+        total += shipping;
+    }
+
+    document.getElementById('total').innerText = `SAR ${total.toFixed(2)}`;
 }
 </script>
 <script>

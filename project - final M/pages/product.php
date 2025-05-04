@@ -34,7 +34,7 @@ if (!$row) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Details</title>
+    <title>Product Details | Glamour</title>
 
     <!-- CSS Files -->
     <link rel="stylesheet" href="<?= $prefix ?>css/bootstrap.min.css">
