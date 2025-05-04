@@ -26,7 +26,8 @@
                     <div class="col-lg-6 mb-3 mb-lg-0">
                         <h1 class="title">Contact Us</h1>
                         <p class="mb-2">We're here to help! Please reach out with any questions, comments, or feedback.</p>
-                        <form id="contactForm" method="POST" action="">
+                        <form id="contactForm" method="POST" action="send_email.php">
+
                             <label>Name:
                                 <input type="text" id="name" name="name" required>
                             </label><br>
