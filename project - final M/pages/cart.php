@@ -204,9 +204,13 @@ document.querySelectorAll('input[name="shipping"]').forEach(radio => {
 function updateTotal() {
     const subtotal = parseFloat(document.querySelector('#subtotal').dataset.value);
     const shipping = parseFloat(document.querySelector('input[name="shipping"]:checked').value);
-    const total = subtotal + shipping;
+    let total = subtotal;
 
-    document.getElementById('total').innerText = SAR ${total.toFixed(2)};
+    if (subtotal < 300) {
+        total += shipping;
+    }
+
+    document.getElementById('total').innerText = `SAR ${total.toFixed(2)}`;
 }
 </script>
 <script>
