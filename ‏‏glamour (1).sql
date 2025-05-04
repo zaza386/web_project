@@ -1,4 +1,5 @@
-
+CREATE DATABASE  IF NOT EXISTS `glamour`;
+USE `glamour`;
 CREATE TABLE `admin` (
   `idAdmin` int NOT NULL AUTO_INCREMENT,
   `name` varchar(45) DEFAULT NULL,
