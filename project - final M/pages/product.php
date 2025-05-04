@@ -140,15 +140,25 @@ if (!$row) {
 
   </div>
     <!-- raghadbahawi : show the stock quantity for each product -->
-  <p style="margin-top: 8px; color: #777; font-size: 14px;">
-    Available: <?= $row['stock'] ?> in stock
-</p>
+  <?php if ($row['stock'] == 0): ?>
+    <p style="margin-top: 8px; color: red; font-size: 16px; font-weight: bold;">
+        Sold Out
+    </p>
+<?php else: ?>
+    <p style="margin-top: 8px; color: #777; font-size: 14px;">
+        Available: <?= $row['stock'] ?> in stock
+    </p>
+<?php endif; ?>
 
 </div>
 
 
                     <div class="product-buttons">
-                        <button class="btn btn-primary btn-add-to-cart">Add to Cart</button>
+                        <?php if ($row['stock'] == 0): ?>
+                            <button class="btn btn-primary btn-add-to-cart" disabled>Sold Out</button>
+                        <?php else: ?>
+                            <button class="btn btn-primary btn-add-to-cart">Add to Cart</button>
+                        <?php endif; ?>
                         <a href="#" id="btn-checkout" class="btn btn-secondary btn-checkout">Checkout</a>
                         <input type="hidden" id="product_id" value="<?= $row['idProduct'] ?>">
 
@@ -173,14 +183,12 @@ if (!$row) {
                     <pre><?= htmlspecialchars($row['description2']) ?></pre>
                 </div>
                 <div id="shipping-returns" class="tab-pane fade">
-                    <pre><strong>📦 Shipping Policy:</strong>
-
+                    <pre><strong>📦 Shipping Policy:</strong> 
                     Free standard shipping on orders over SAR 300 within Saudi Arabia.
                     Orders are processed within 1-2 business days, delivered within 3-5 in major cities.
                     Express delivery available within 1-2 days (extra charge). COD available for SAR 10.
 
-                    <strong>🔄 Return Policy:</strong>
-
+<strong>🔄 Return Policy:</strong>
                     Return unused/unopened items within 14 days for full refund or exchange.
                     Used items are not returnable. Damaged/incorrect orders replaced for free within 48h notice.
                     </pre>

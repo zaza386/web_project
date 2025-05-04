@@ -21,8 +21,42 @@
   <link rel="stylesheet" href="<?= $prefix ?>css/style.css">
   <link rel="stylesheet" href="<?= $prefix ?>css/Manage.css">
   <style>
-    .button-container button:hover {
-        background-color: gray;
+
+    #productForm {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    #productForm .form-group {
+      margin-bottom: 20px;
+    }
+
+    #productForm label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    #productForm input,
+    #productForm select,
+    #productForm textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+
+    #productForm .button-container {
+      display: flex;
+      gap: 10px;
+    }
+
+    #productForm .button-container button {
+      flex: 1;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 5px;
     }
   </style>
 </head> 
@@ -59,7 +93,7 @@
 
         <div class="form-group">
           <label for="productImage">Product Image:</label>
-          <input type="file" id="productImage" name="productImage" accept="image/*" required>
+          <input type="file" id="productImage" name="productImage" accept="image/*" class="btn btn-primary btn-round" required>
         </div>
 
         <div class="form-group">
@@ -83,9 +117,9 @@
         </div>
 
         <div class="button-container">
-        <button type="submit" name="submit">Add product</button>
+        <button type="submit" name="submit" class="btn btn-primary btn-round">Add product</button>
 
-          <button type="button" id="cancelButton">Cancel</button>
+          <button type="button" id="cancelButton" class="btn btn-danger btn-round">Cancel</button>
         </div>
       </form>
     </div>
