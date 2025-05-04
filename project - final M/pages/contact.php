@@ -3,6 +3,9 @@
 
 
 
+
+
+
 <!-- Zinab Mukhtar Al-Rashed --> 
 <!DOCTYPE html>
 <html>
@@ -133,6 +136,20 @@
 <!-- Bootstrap + Modal JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="<?= $prefix ?>js/bootstrap.bundle.min.js"></script>
+
+
+<!-- raghad bahawi : after submit show thankyou modal massege -->
+<?php if (isset($_GET['sent']) && $_GET['sent'] == 1): ?>
+<script>
+    window.addEventListener('DOMContentLoaded', function () {
+        var modal = new bootstrap.Modal(document.getElementById('thankYouModal'));
+        modal.show();
+    });
+</script>
+<?php endif; ?>
+
+
+
 <script>
     document.getElementById("contactForm").addEventListener("submit", function(event) {
         event.preventDefault();
