@@ -56,7 +56,7 @@ if (isset($_POST['empty_cart'])) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Shopping Cart</title>
+    <title>Shopping Cart | Glamour</title>
     <link rel="stylesheet" href="<?= $prefix ?>css/bootstrap.min.css">
     <link rel="stylesheet" href="<?= $prefix ?>css/style.css">
     <link rel="stylesheet" href="<?= $prefix ?>css/cart.css">

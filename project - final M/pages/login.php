@@ -9,7 +9,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Contact Us | Glamour</title>
+    <title>Login | Glamour</title>
     <!-- Plugins CSS File --> 
     <link rel="stylesheet" href="<?= $prefix ?>css/bootstrap.min.css">  
     <!-- Main CSS File --> 

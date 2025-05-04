@@ -12,11 +12,9 @@
 <html>
 <head> <!--jory alqahtani -->
   <meta charset="UTF-8">
-  <meta name="keywords" content="Glamour, Glamour home page, organic makeup, natural beauty, cruelty-free cosmetics, vegan makeup, eco-friendly beauty, organic foundation, clean beauty, non-toxic makeup">
-  <meta name="description" content="Discover the beauty of organic makeup with Glamour. Shop high-quality, cruelty-free, and eco-friendly cosmetics made from natural ingredients. Embrace clean beauty today!">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Add product</title>
+  <title>Add product | Glamour</title>
   <link rel="stylesheet" href="<?= $prefix ?>css/bootstrap.min.css">
   <link rel="stylesheet" href="<?= $prefix ?>css/style.css">
   <link rel="stylesheet" href="<?= $prefix ?>css/Manage.css">

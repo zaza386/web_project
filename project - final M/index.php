@@ -30,7 +30,7 @@ setTimeout(() => {
   <meta name="description" content="Discover the beauty of organic makeup with Glamour. Shop high-quality, cruelty-free, and eco-friendly cosmetics made from natural ingredients. Embrace clean beauty today!">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Glamour</title>
+  <title>Home | Glamour</title>
 
   <!-- Stylesheets -->
   <link rel="stylesheet" href="<?= $prefix ?>css/bootstrap.min.css">

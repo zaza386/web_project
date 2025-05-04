@@ -112,7 +112,7 @@ if (isset($_SESSION['error'])) {
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Manage Products - Glamour</title>
+  <title>Manage Products | Glamour</title>
   <link rel="stylesheet" href="<?= $prefix ?>css/bootstrap.min.css">
   <link rel="stylesheet" href="<?= $prefix ?>css/style.css">
   <script>
