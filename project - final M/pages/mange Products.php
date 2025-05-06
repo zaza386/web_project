@@ -23,7 +23,7 @@ if (isset($_SESSION['admin_name'])) {
 // Database connection
 include $prefix . "db.php";
 
-// Handle delete action : dana 
+// Handle delete action  
 if (isset($_GET['delete_id'])) {
   $product_id = $_GET['delete_id'];
 
@@ -73,6 +73,7 @@ if (isset($_SESSION['error'])) {
 
 
 
+
 <!-- message success after update product :Dana-->
 <?php if (isset($_GET['updated']) && $_GET['updated'] == 1): ?>
     <div id="successMsg" style="background-color: #d1ecf1; color: #155724; padding: 15px; margin: 20px auto; border: 1px solid #bee5eb; border-radius: 5px; width: 80%; text-align: center;">
@@ -88,6 +89,7 @@ if (isset($_SESSION['error'])) {
       }, 5000); // 5000 milliseconds = 5 seconds
     </script>
 <?php endif; ?>
+
 
 <!-- message success after delete product :Dana-->
 <?php if (isset($_GET['deleted']) && $_GET['deleted'] == 1): ?>

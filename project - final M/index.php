@@ -82,7 +82,7 @@ setTimeout(() => {
     <?php endforeach; ?>
 </div>
 
-<!-- Auto-hide after 10 seconds -->
+<!-- Auto-hide pastprchase table after 10 seconds -->
 <script>
     setTimeout(() => {
         const box = document.getElementById('pastPurchasesBox');
@@ -90,6 +90,15 @@ setTimeout(() => {
     }, 10000);
 </script>
 <?php endif; ?>
+
+
+
+
+
+
+
+
+
 
 <div class="page-wrapper">
 

@@ -164,7 +164,7 @@ if (isset($_POST['empty_cart'])) {
 
 
 
-<!-- raghadbahawi: but button-->
+<!-- raghadbahawi: buy button-->
             <div class="cart-buttons-total">
             <button id="buyNowBtn" class="btn btn-primary btn-round" type="button">
         <span>BUY</span><i class="icon-long-arrow-right"></i>
